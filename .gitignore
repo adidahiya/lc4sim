@@ -1,6 +1,10 @@
 *.#
 #*#
 
+*.un~
+*.swp
+
 *.hi
 *.o
 Main
+lc4sim

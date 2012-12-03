@@ -211,16 +211,14 @@ emptyP = many (string " " <|> commentP) >>
 
 -- | Parse a line as either insn, comment, or directive.
 lineP :: Parser Line
-lineP = 
-  do 
-    _ws <- many (char ' ' <|> char '\t')
-    choice [insnP >>= \i -> return $ Insn i,
-            lblDirectiveP, 
-            unLblDirectiveP,
-            labelP >>= \l -> return $ Label l,
-            emptyP
-           ]
-             
+lineP = do 
+  _ws <- many (char ' ' <|> char '\t')
+  choice [ insnP >>= \i -> return $ Insn i
+         , lblDirectiveP
+         , unLblDirectiveP
+         , labelP >>= \l -> return $ Label l
+         , emptyP ]
+
 -- | Removes whitespace after a parse
 wsP :: Parser a -> Parser a
 wsP p = do a <- p

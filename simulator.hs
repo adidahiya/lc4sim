@@ -50,9 +50,9 @@ readCC = liftM cc get
 
 orderingToCC :: Ordering -> CC
 orderingToCC ord = case ord of
-       LT -> CC_N
-       EQ -> CC_Z
-       GT -> CC_P
+                     LT -> CC_N
+                     EQ -> CC_Z
+                     GT -> CC_P
 
 writeConditionCode :: Ordering -> State VMState ()
 writeConditionCode ord = get >>= (\s -> put s {cc = orderingToCC ord})
@@ -65,30 +65,26 @@ setPSR b = get >>= (\s -> put s {psr = b})
 
 evalBranch :: CC -> BC -> Bool
 evalBranch cc' bc' = case bc' of
-                                       N -> cc' == CC_N
-                                       Z -> cc' == CC_Z
-                                       P -> cc' == CC_P
-                                       NZ -> cc' == CC_N
-                                          || cc' == CC_Z
-                                       NP -> cc' == CC_N
-                                          || cc' == CC_P
-                                       ZP -> cc' == CC_Z
-                                          || cc' == CC_P
-                                       NZP -> True
+                       N -> cc' == CC_N
+                       Z -> cc' == CC_Z
+                       P -> cc' == CC_P
+                       NZ -> cc' == CC_N || cc' == CC_Z
+                       NP -> cc' == CC_N || cc' == CC_P
+                       ZP -> cc' == CC_Z || cc' == CC_P
+                       NZP -> True
 
 nextStep :: State (VMState) ()
-nextStep = 
-  do
-    s <- get
-    case M.lookup (pc s) (prog s) of
-      Nothing -> error "PC at loaction with no valid instruction"
-      Just insn -> step insn
+nextStep = do
+  s <- get
+  case M.lookup (pc s) (prog s) of
+    Nothing -> error "PC at loaction with no valid instruction"
+    Just insn -> step insn
 
 step :: Instruction -> State (VMState) ()
 step NOP = incrPC
 
-step (BR bc lbl) = do cc' <- readCC
-                      target <- derefLabel lbl
+step (BR bc lbl) = do cc'     <- readCC
+                      target  <- derefLabel lbl
                       if evalBranch cc' bc
                       then updatePC target
                       else incrPC
@@ -178,7 +174,7 @@ step (HICONST d imm) = do i <- readRegister d
 step (TRAP uimm) = do readPC >>= writeRegister R7
                       updatePC (uimm .|. (1 `shiftL` 15))
                       setPSR True
-                      
+
 step RET = step $ JMPR R7
 
 step (LEA r lbl) = derefLabel lbl >>= writeRegister r >> incrPC

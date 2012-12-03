@@ -1,18 +1,17 @@
 -- This content is released under the (Link Goes Here) MIT License.
 {-# OPTIONS -Wall -fwarn-tabs -fno-warn-type-defaults  #-}
 
-module Parser (Parser,                  
-               get,
-               choose,
-               (<|>),
-               satisfy,
-               doParse,
-               ParserG,
-               getG,
-               (<||>),
-               satisfyG,
-               doParseG
-               ) where
+module Parser ( Parser
+              , get
+              , choose
+              , (<|>)
+              , satisfy
+              , doParse
+              , ParserG
+              , getG
+              , (<||>)
+              , satisfyG
+              , doParseG ) where
 
 import Control.Monad
 
@@ -73,8 +72,8 @@ instance Functor (ParserG a) where
    fmap f p = do x <- p
                  return (f x)
 
--- | Combine two parsers together in parallel, producing all 
--- possible results from either parser.                 
+-- | Combine two parsers together in parallel, producing all
+-- possible results from either parser.
 choose :: Parser a -> Parser a -> Parser a
 p1 `choose` p2 = P (\cs -> doParse p1 cs ++ doParse p2 cs)
 
@@ -82,14 +81,15 @@ chooseG :: ParserG a b -> ParserG a b -> ParserG a b
 p1 `chooseG` p2 = PG (\as -> doParseG p1 as ++ doParseG p2 as)
 
 
--- | Combine two parsers together in parallel, but only use the 
--- first result. This means that the second parser is used only 
--- if the first parser completely fails. 
+-- | Combine two parsers together in parallel, but only use the
+-- first result. This means that the second parser is used only
+-- if the first parser completely fails.
 (<|>) :: Parser a -> Parser a -> Parser a
 p1 <|> p2 = P $ \cs -> case doParse (p1 `choose` p2) cs of
-                          []   -> []
+                          []  -> []
                           x:_ -> [x]
 
+-- | Same combinator for generic parsers.
 (<||>) :: ParserG a b -> ParserG a b -> ParserG a b
 p1 <||> p2 = PG $ \as -> case doParseG (p1 `chooseG` p2) as of
                           []  -> []

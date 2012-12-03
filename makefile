@@ -12,8 +12,10 @@ SRC+=simulator.hs
 SRC+=vmLoader.hs
 SRC+=Main.hs
 
+TARGET=lc4sim
+
 Main: $(SRC)
-	ghc --make Main.hs
+	ghc --make Main.hs -o $(TARGET)
 
 clean : 
-	rm -f *.o *.hi Main
+	rm -f *.o *.hi $(TARGET)
