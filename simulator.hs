@@ -10,17 +10,24 @@ import qualified Data.Map as M
 
 import LC4VM
 
+-- | This file is responsible for managing the state of the LC4 virtual machine
+-- The simulator manages the program counter, the -- registers, and the memory
 readPC :: State VMState PC
 readPC = liftM pc get
 
 updatePC :: Int -> State (VMState) ()
-updatePC target = get >>= (\s -> put s {pc = target})
+-- updatePC target = get >>= (\s -> put s {pc = target})
+updatePC target = do vmState <- get
+                     put vmState {pc=target}
 
 incrPC :: State (VMState) ()
-incrPC = liftM pc get >>= (\pc' -> updatePC $ pc' + 1)
+-- incrPC = liftM pc get >>= (\pc' -> updatePC $ pc' + 1)
+incrPC = do currPC <- readPC
+            updatePC $ currPC + 1
 
+-- | Gets the VMState, takes the regFile, and applies it to (regValue r)
 readRegister :: Register -> State (VMState) Int
-readRegister r = liftM ((regValue r).regFile) get
+readRegister r = liftM ((regValue r) . regFile) get
 
 writeRegister :: Register -> Int -> State (VMState) ()
 writeRegister r u16 = do vmState <- get
@@ -29,16 +36,16 @@ writeRegister r u16 = do vmState <- get
                          put vmState {regFile = rf'}
 
 readMemory :: Int -> State (VMState) Int
-readMemory addr = liftM ((memValue addr).memory) get
+readMemory addr = liftM ((memValue addr) . memory) get
 
-writeMemory :: Int -> Int -> State VMState ()  
+writeMemory :: Int -> Int -> State VMState ()
 writeMemory addr val = do vmState <- get
                           let mem = memory vmState
                           let mem' = M.insert addr val mem
                           put vmState {memory = mem'}
 
 stepSimpleBop :: (Int -> Int -> Int) ->
-                 Register -> Register -> Register -> 
+                 Register -> Register -> Register ->
                  State (VMState) ()
 stepSimpleBop bop s1 s2 d = 
   do input1 <- readRegister s1

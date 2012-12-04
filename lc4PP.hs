@@ -9,7 +9,8 @@ import qualified Text.PrettyPrint.HughesPJ as PP
 
 class PP a where
   pp :: a -> Doc
-  
+
+-- | Pretty-Prints NZP state
 instance PP BC where
   pp NZ = PP.text "nz"
   pp N = PP.char 'n'
@@ -18,7 +19,7 @@ instance PP BC where
   pp ZP = PP.text "zp"
   pp NP = PP.text "np"
   pp NZP = PP.text "nzp"
-  
+
 instance PP CC where
   pp CC_N = PP.text "Condition Code: " <> PP.char 'N'
   pp CC_Z = PP.text "Condition Code: " <> PP.char 'Z'

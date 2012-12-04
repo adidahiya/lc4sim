@@ -13,6 +13,7 @@ import Control.Monad.State
 type LineNumber = Int
 type Label = String
 
+-- | Lines can either be an instruction, a directive, a label, or empty
 data Line = Label Label
           | Insn Instruction
           | Dir Directive (Maybe Label)
@@ -42,6 +43,7 @@ data Register = R0
 
 -- Parser builds these
 type Program = Map Int Instruction -- (LineNumber, Line)
+
 -- | A map from labels to addresses
 type Labels = Map Label Int
 

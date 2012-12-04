@@ -84,7 +84,7 @@ int = do n <- string "-" <|> return []
 -- and return the answer in a list
 many :: Parser a -> Parser [a]
 many p = many1 p <|> return []
-                    
+
 -- | Given a parser, apply it as many times as possible, but at least once.
 many1 :: Parser a -> Parser [a]
 many1 p = do x  <- p
