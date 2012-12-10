@@ -12,12 +12,13 @@ import qualified Data.Map as M
 import Data.Maybe
 import Control.Monad.State
 
+import ParserCombinators
 import LC4Parser
 import LC4VM
-import ParserCombinators
+import LC4PP
+import LC4Draw
 import VMLoader
 import Simulator
-import LC4PP
 
 -- | The welcome message. This is printed when the interpreter is started
 --   without any command-line arguments.
@@ -116,6 +117,7 @@ run filename = do
   lines     <- checkParsedLines prelines
   putStrLn . unlines $ fmap show lines
   putStrLn welcomeMsg
+  -- LC4Draw.consoleREPL $ load lines
   repl $ load lines
 
 -- | Parse file from command arguments and run the REPL.

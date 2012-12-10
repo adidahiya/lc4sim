@@ -1,5 +1,3 @@
-all: Main
-
 SRC=Parser.hs 
 SRC+=ParserCombinators.hs
 SRC+=Tests.hs
@@ -12,10 +10,12 @@ SRC+=simulator.hs
 SRC+=vmLoader.hs
 SRC+=Main.hs
 
+all: Main
+
 TARGET=lc4sim
 
 Main: $(SRC)
-	ghc --make Main.hs -o $(TARGET)
+	ghc --make -package hcurses Main.hs -o $(TARGET)
 
 clean : 
 	rm -f *.o *.hi $(TARGET)
