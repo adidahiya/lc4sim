@@ -3,54 +3,50 @@
 
 -- Demo code for Fay-to-JS compilation
 
-import Language.Fay.Types
 import Language.Fay.Prelude
 import Language.Fay.FFI
 import JQuery
--- import Language.Fay.Compiler
--- import Control.Monad
--- import System.Process
 
--- | Parts of Haskell that we know work off the bat:
---   Enums / custom types, lists, records, pattern matching, functions, higher
---   order functions, partial application, let statements
-
--- Foreign function interface
--- data Element
--- instance Foreign Element
+-- ffi :: Foreign a => String -> a
 
 alert :: Foreign a => a -> Fay ()
 alert = ffi "window.alert(%1)"
 
--- DOM
-{-
-getInnerHTML :: Element -> Fay String
-getInnerHTML = ffi "%1.innerHTML"
+------------------------------------------------------------------------------
+-- HTML DOM elements & attributes
+data Attr = Attr String String
 
-setInnerHTML :: Element -> String -> Fay ()
-setInnerHTML = ffi "%1.innerHTML=%2"
+data Elem = Elem String [Attr] [Elem]
+          | CData String
 
-theDocument :: Element
-theDocument = ffi "window.document"
+buildAttr :: Attr -> String
+buildAttr (Attr k v) = " " ++ k ++ "='" ++ v ++ "'"
 
-jQuery :: Element -> JQuery
-jQuery = ffi "window.jQuery(%1)"
+buildElem :: Elem -> String
+buildElem (CData s) = s
+buildElem (Elem tag attrs childs) =
+  "<" ++ tag ++ concatMap buildAttr attrs ++ ">" ++
+  concatMap buildElem childs ++
+  "</" ++ tag ++ ">"
 
-documentGetElements :: String -> Fay [Element]
-documentGetElements = ffi "document.getElementsByTagName(%1)"
--}
+-- Write elements to the DOM
+writeRaw :: String -> Fay ()
+writeRaw = ffi "document.write(%1)"
 
-consoleLog :: Foreign a => a -> Fay ()
-consoleLog = ffi "window.console.log(%1)"
+writeElem :: Elem -> Fay ()
+writeElem = writeRaw . buildElem
 
+-- Get the contents of an element and print them to the console
+printElem :: Fay JQuery -> Fay ()
+printElem f = f >>= getHtml >>= putStrLn
+
+
+------------------------------------------------------------------------------
+-- Test working with DOM elements and writing to the console
 main :: Fay ()
 main = do
-  consoleLog "Entered main..."
-  consoleLog $ return "Entered main..."
-  body <- select "body"
-  bodyContents <- getHtml body
-  consoleLog $ getHtml body
-  consoleLog bodyContents
-  -- result <- documentGetElements "body"
-  -- consoleLog result
+  putStrLn "Entered main..."
+  writeElem $ Elem "h4" [] [CData "test"]
+  printElem $ select "body"
+  putStrLn "...finished main."
 

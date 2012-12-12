@@ -656,10 +656,10 @@ var Language$Fay$Stdlib$error = function($p1){
     var str = $p1;
     return (function($tmp1){
       if (_($tmp1) === 0) {
-        return _(Language$Fay$Stdlib$error)(str);
+        return __(Language$Fay$Stdlib$error,str);
       }
-      return _(Language$Fay$Stdlib$error)(str);
-    })(_(Language$Fay$Stdlib$error$39$)(str));
+      return __(Language$Fay$Stdlib$error,str);
+    })(__(Language$Fay$Stdlib$error$39$,str));
   });
 };
 var Language$Fay$Stdlib$error$39$ = function($p1){
@@ -668,7 +668,7 @@ var Language$Fay$Stdlib$error$39$ = function($p1){
   });
 };
 var Language$Fay$Stdlib$$_undefined = new $(function(){
-  return _(Language$Fay$Stdlib$error)(Fay$$list("Prelude.undefined"));
+  return __(Language$Fay$Stdlib$error,Fay$$list("Prelude.undefined"));
 });
 var Language$Fay$Stdlib$show = function($p1){
   return new $(function(){
@@ -711,12 +711,12 @@ var Language$Fay$Stdlib$either = function($p1){
         if (_($p3) instanceof $_Language$Fay$Stdlib$Left) {
           var a = _($p3).slot1;
           var f = $p1;
-          return _(f)(a);
+          return __(f,a);
         }
         if (_($p3) instanceof $_Language$Fay$Stdlib$Right) {
           var b = _($p3).slot1;
           var g = $p2;
-          return _(g)(b);
+          return __(g,b);
         }
         throw ["unhandled case in either",[$p1,$p2,$p3]];
       });
@@ -744,13 +744,13 @@ var Language$Fay$Stdlib$negate = function($p1){
 var Language$Fay$Stdlib$abs = function($p1){
   return new $(function(){
     var x = $p1;
-    return _(_(Fay$$lt)(_(x))(0)) ? _(Language$Fay$Stdlib$negate)(x) : x;
+    return _(_(Fay$$lt)(_(x))(0)) ? __(Language$Fay$Stdlib$negate,x) : x;
   });
 };
 var Language$Fay$Stdlib$signum = function($p1){
   return new $(function(){
     var x = $p1;
-    return _(_(Fay$$gt)(_(x))(0)) ? 1 : _(_(_(Fay$$eq)(x))(0)) ? 0 : (-(1));
+    return _(_(Fay$$gt)(_(x))(0)) ? 1 : _(__(Fay$$eq,x,0)) ? 0 : (-(1));
   });
 };
 var Language$Fay$Stdlib$pi = new $(function(){
@@ -790,13 +790,13 @@ var Language$Fay$Stdlib$$94$ = function($p1){
       var b = $p2;
       var a = $p1;
       if (_(_(Fay$$lt)(_(b))(0))) {
-        return _(Language$Fay$Stdlib$error)(Fay$$list("(^): negative exponent"));
-      } else {if (_(_(_(Fay$$eq)(b))(0))) {
+        return __(Language$Fay$Stdlib$error,Fay$$list("(^): negative exponent"));
+      } else {if (_(__(Fay$$eq,b,0))) {
           return 1;
-        } else {if (_(_(Language$Fay$Stdlib$even)(b))) {
+        } else {if (_(__(Language$Fay$Stdlib$even,b))) {
             return (function(){
               var x = new $(function(){
-                return _(_(Language$Fay$Stdlib$$94$)(a))(_(_(Language$Fay$Stdlib$quot)(b))(2));
+                return __(Language$Fay$Stdlib$$94$,a,__(Language$Fay$Stdlib$quot,b,2));
               });
               return _(Fay$$mult)(_(x))(_(x));
             })();
@@ -805,7 +805,7 @@ var Language$Fay$Stdlib$$94$ = function($p1){
       }
       var b = $p2;
       var a = $p1;
-      return _(Fay$$mult)(_(a))(_(_(_(Language$Fay$Stdlib$$94$)(a))(_(Fay$$sub)(_(b))(1))));
+      return _(Fay$$mult)(_(a))(_(__(Language$Fay$Stdlib$$94$,a,_(Fay$$sub)(_(b))(1))));
     });
   };
 };
@@ -814,7 +814,7 @@ var Language$Fay$Stdlib$logBase = function($p1){
     return new $(function(){
       var x = $p2;
       var b = $p1;
-      return _(Fay$$div)(_(_(Language$Fay$Stdlib$log)(x)))(_(_(Language$Fay$Stdlib$log)(b)));
+      return _(Fay$$div)(_(__(Language$Fay$Stdlib$log,x)))(_(__(Language$Fay$Stdlib$log,b)));
     });
   };
 };
@@ -851,7 +851,7 @@ var Language$Fay$Stdlib$acos = function($p1){
 var Language$Fay$Stdlib$sinh = function($p1){
   return new $(function(){
     var x = $p1;
-    return _(Fay$$div)(_(_(Fay$$sub)(_(_(Language$Fay$Stdlib$exp)(x)))(_(_(Language$Fay$Stdlib$exp)((-(_(x))))))))(2);
+    return _(Fay$$div)(_(_(Fay$$sub)(_(__(Language$Fay$Stdlib$exp,x)))(_(__(Language$Fay$Stdlib$exp,(-(_(x))))))))(2);
   });
 };
 var Language$Fay$Stdlib$tanh = function($p1){
@@ -859,10 +859,10 @@ var Language$Fay$Stdlib$tanh = function($p1){
     var x = $p1;
     return (function(){
       var a = new $(function(){
-        return _(Language$Fay$Stdlib$exp)(x);
+        return __(Language$Fay$Stdlib$exp,x);
       });
       var b = new $(function(){
-        return _(Language$Fay$Stdlib$exp)((-(_(x))));
+        return __(Language$Fay$Stdlib$exp,(-(_(x))));
       });
       return _(Fay$$div)(_(_(Fay$$sub)(_(a))(_(b))))(_(_(Fay$$add)(_(a))(_(b))));
     })();
@@ -871,25 +871,25 @@ var Language$Fay$Stdlib$tanh = function($p1){
 var Language$Fay$Stdlib$cosh = function($p1){
   return new $(function(){
     var x = $p1;
-    return _(Fay$$div)(_(_(Fay$$add)(_(_(Language$Fay$Stdlib$exp)(x)))(_(_(Language$Fay$Stdlib$exp)((-(_(x))))))))(2);
+    return _(Fay$$div)(_(_(Fay$$add)(_(__(Language$Fay$Stdlib$exp,x)))(_(__(Language$Fay$Stdlib$exp,(-(_(x))))))))(2);
   });
 };
 var Language$Fay$Stdlib$asinh = function($p1){
   return new $(function(){
     var x = $p1;
-    return _(Language$Fay$Stdlib$log)(_(Fay$$add)(_(x))(_(_(Language$Fay$Stdlib$sqrt)(_(Fay$$add)(_(_(_(Language$Fay$Stdlib$$42$$42$)(x))(2)))(1)))));
+    return __(Language$Fay$Stdlib$log,_(Fay$$add)(_(x))(_(__(Language$Fay$Stdlib$sqrt,_(Fay$$add)(_(__(Language$Fay$Stdlib$$42$$42$,x,2)))(1)))));
   });
 };
 var Language$Fay$Stdlib$atanh = function($p1){
   return new $(function(){
     var x = $p1;
-    return _(Fay$$div)(_(_(Language$Fay$Stdlib$log)(_(Fay$$div)(_(_(Fay$$add)(1)(_(x))))(_(_(Fay$$sub)(1)(_(x)))))))(2);
+    return _(Fay$$div)(_(__(Language$Fay$Stdlib$log,_(Fay$$div)(_(_(Fay$$add)(1)(_(x))))(_(_(Fay$$sub)(1)(_(x)))))))(2);
   });
 };
 var Language$Fay$Stdlib$acosh = function($p1){
   return new $(function(){
     var x = $p1;
-    return _(Language$Fay$Stdlib$log)(_(Fay$$add)(_(x))(_(_(Language$Fay$Stdlib$sqrt)(_(Fay$$sub)(_(_(_(Language$Fay$Stdlib$$42$$42$)(x))(2)))(1)))));
+    return __(Language$Fay$Stdlib$log,_(Fay$$add)(_(x))(_(__(Language$Fay$Stdlib$sqrt,_(Fay$$sub)(_(__(Language$Fay$Stdlib$$42$$42$,x,2)))(1)))));
   });
 };
 var Language$Fay$Stdlib$properFraction = function($p1){
@@ -897,16 +897,16 @@ var Language$Fay$Stdlib$properFraction = function($p1){
     var x = $p1;
     return (function(){
       var a = new $(function(){
-        return _(Language$Fay$Stdlib$truncate)(x);
+        return __(Language$Fay$Stdlib$truncate,x);
       });
-      return Fay$$list([a,_(Fay$$sub)(_(x))(_(_(Language$Fay$Stdlib$fromIntegral)(a)))]);
+      return Fay$$list([a,_(Fay$$sub)(_(x))(_(__(Language$Fay$Stdlib$fromIntegral,a)))]);
     })();
   });
 };
 var Language$Fay$Stdlib$truncate = function($p1){
   return new $(function(){
     var x = $p1;
-    return _(_(Fay$$lt)(_(x))(0)) ? _(Language$Fay$Stdlib$ceiling)(x) : _(Language$Fay$Stdlib$floor)(x);
+    return _(_(Fay$$lt)(_(x))(0)) ? __(Language$Fay$Stdlib$ceiling,x) : __(Language$Fay$Stdlib$floor,x);
   });
 };
 var Language$Fay$Stdlib$round = function($p1){
@@ -925,18 +925,18 @@ var Language$Fay$Stdlib$floor = function($p1){
   });
 };
 var Language$Fay$Stdlib$subtract = new $(function(){
-  return _(Language$Fay$Stdlib$flip)(Fay$$sub);
+  return __(Language$Fay$Stdlib$flip,Fay$$sub);
 });
 var Language$Fay$Stdlib$even = function($p1){
   return new $(function(){
     var x = $p1;
-    return _(_(Fay$$eq)(_(_(Language$Fay$Stdlib$rem)(x))(2)))(0);
+    return __(Fay$$eq,__(Language$Fay$Stdlib$rem,x,2),0);
   });
 };
 var Language$Fay$Stdlib$odd = function($p1){
   return new $(function(){
     var x = $p1;
-    return _(Language$Fay$Stdlib$not)(_(Language$Fay$Stdlib$even)(x));
+    return __(Language$Fay$Stdlib$not,__(Language$Fay$Stdlib$even,x));
   });
 };
 var Language$Fay$Stdlib$gcd = function($p1){
@@ -954,11 +954,11 @@ var Language$Fay$Stdlib$gcd = function($p1){
               }
               var y = $p2;
               var x = $p1;
-              return _(_(go)(y))(_(_(Language$Fay$Stdlib$rem)(x))(y));
+              return __(go,y,__(Language$Fay$Stdlib$rem,x,y));
             });
           };
         };
-        return _(_(go)(_(Language$Fay$Stdlib$abs)(a)))(_(Language$Fay$Stdlib$abs)(b));
+        return __(go,__(Language$Fay$Stdlib$abs,a),__(Language$Fay$Stdlib$abs,b));
       })();
     });
   };
@@ -974,7 +974,7 @@ var Language$Fay$Stdlib$lcm = function($p1){
       }
       var b = $p2;
       var a = $p1;
-      return _(Language$Fay$Stdlib$abs)(_(Fay$$mult)(_(_(_(Language$Fay$Stdlib$quot)(a))(_(_(Language$Fay$Stdlib$gcd)(a))(b))))(_(b)));
+      return __(Language$Fay$Stdlib$abs,_(Fay$$mult)(_(__(Language$Fay$Stdlib$quot,a,__(Language$Fay$Stdlib$gcd,a,b))))(_(b)));
     });
   };
 };
@@ -985,7 +985,7 @@ var Language$Fay$Stdlib$curry = function($p1){
         var y = $p3;
         var x = $p2;
         var f = $p1;
-        return _(f)(Fay$$list([x,y]));
+        return __(f,Fay$$list([x,y]));
       });
     };
   };
@@ -999,7 +999,7 @@ var Language$Fay$Stdlib$uncurry = function($p1){
         if (Fay$$listLen(_($tmp1),2)) {
           var x = Fay$$index(0)(_($tmp1));
           var y = Fay$$index(1)(_($tmp1));
-          return _(_(f)(x))(y);
+          return __(f,x,y);
         }
         return (function(){ throw (["unhandled case",$tmp1]); })();
       })(p);
@@ -1032,7 +1032,7 @@ var Language$Fay$Stdlib$find = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var p = $p1;
-        return _(_(p)(x)) ? _(Language$Fay$Stdlib$Just)(x) : _(_(Language$Fay$Stdlib$find)(p))(xs);
+        return _(__(p,x)) ? __(Language$Fay$Stdlib$Just,x) : __(Language$Fay$Stdlib$find,p,xs);
       }
       if (_($p2) === null) {
         return Language$Fay$Stdlib$Nothing;
@@ -1049,7 +1049,7 @@ var Language$Fay$Stdlib$filter = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var p = $p1;
-        return _(_(p)(x)) ? _(_(Fay$$cons)(x))(_(_(Language$Fay$Stdlib$filter)(p))(xs)) : _(_(Language$Fay$Stdlib$filter)(p))(xs);
+        return _(__(p,x)) ? __(Fay$$cons,x,__(Language$Fay$Stdlib$filter,p,xs)) : __(Language$Fay$Stdlib$filter,p,xs);
       }
       if (_($p2) === null) {
         return null;
@@ -1083,7 +1083,7 @@ var Language$Fay$Stdlib$map = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var f = $p1;
-        return _(_(Fay$$cons)(_(f)(x)))(_(_(Language$Fay$Stdlib$map)(f))(xs));
+        return __(Fay$$cons,__(f,x),__(Language$Fay$Stdlib$map,f,xs));
       }
       throw ["unhandled case in map",[$p1,$p2]];
     });
@@ -1092,7 +1092,7 @@ var Language$Fay$Stdlib$map = function($p1){
 var Language$Fay$Stdlib$nub = function($p1){
   return new $(function(){
     var ls = $p1;
-    return _(_(Language$Fay$Stdlib$nub$39$)(ls))(null);
+    return __(Language$Fay$Stdlib$nub$39$,ls,null);
   });
 };
 var Language$Fay$Stdlib$nub$39$ = function($p1){
@@ -1106,7 +1106,7 @@ var Language$Fay$Stdlib$nub$39$ = function($p1){
       if ($tmp1 instanceof Fay$$Cons) {
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
-        return _(_(_(Language$Fay$Stdlib$elem)(x))(ls)) ? _(_(Language$Fay$Stdlib$nub$39$)(xs))(ls) : _(_(Fay$$cons)(x))(_(_(Language$Fay$Stdlib$nub$39$)(xs))(_(_(Fay$$cons)(x))(ls)));
+        return _(__(Language$Fay$Stdlib$elem,x,ls)) ? __(Language$Fay$Stdlib$nub$39$,xs,ls) : __(Fay$$cons,x,__(Language$Fay$Stdlib$nub$39$,xs,__(Fay$$cons,x,ls)));
       }
       throw ["unhandled case in nub'",[$p1,$p2]];
     });
@@ -1120,7 +1120,7 @@ var Language$Fay$Stdlib$elem = function($p1){
         var y = $tmp1.car;
         var ys = $tmp1.cdr;
         var x = $p1;
-        return _(Fay$$or)(_(_(_(Fay$$eq)(x))(y)))(_(_(_(Language$Fay$Stdlib$elem)(x))(ys)));
+        return _(Fay$$or)(_(__(Fay$$eq,x,y)))(_(__(Language$Fay$Stdlib$elem,x,ys)));
       }
       if (_($p2) === null) {
         return false;
@@ -1134,7 +1134,7 @@ var Language$Fay$Stdlib$notElem = function($p1){
     return new $(function(){
       var ys = $p2;
       var x = $p1;
-      return _(Language$Fay$Stdlib$not)(_(_(Language$Fay$Stdlib$elem)(x))(ys));
+      return __(Language$Fay$Stdlib$not,__(Language$Fay$Stdlib$elem,x,ys));
     });
   };
 };
@@ -1154,7 +1154,7 @@ var Language$Fay$Stdlib$EQ = new $(function(){
   return new $_Language$Fay$Stdlib$EQ();
 });
 var Language$Fay$Stdlib$sort = new $(function(){
-  return _(Language$Fay$Stdlib$sortBy)(Language$Fay$Stdlib$compare);
+  return __(Language$Fay$Stdlib$sortBy,Language$Fay$Stdlib$compare);
 });
 var Language$Fay$Stdlib$compare = function($p1){
   return function($p2){
@@ -1168,7 +1168,7 @@ var Language$Fay$Stdlib$compare = function($p1){
 var Language$Fay$Stdlib$sortBy = function($p1){
   return new $(function(){
     var cmp = $p1;
-    return _(_(Language$Fay$Stdlib$foldr)(_(Language$Fay$Stdlib$insertBy)(cmp)))(null);
+    return __(Language$Fay$Stdlib$foldr,__(Language$Fay$Stdlib$insertBy,cmp),null);
   });
 };
 var Language$Fay$Stdlib$insertBy = function($p1){
@@ -1192,10 +1192,10 @@ var Language$Fay$Stdlib$insertBy = function($p1){
             var ys$39$ = $tmp2.cdr;
             return (function($tmp2){
               if (_($tmp2) instanceof $_Language$Fay$Stdlib$GT) {
-                return _(_(Fay$$cons)(y))(_(_(_(Language$Fay$Stdlib$insertBy)(cmp))(x))(ys$39$));
+                return __(Fay$$cons,y,__(Language$Fay$Stdlib$insertBy,cmp,x,ys$39$));
               }
-              return _(_(Fay$$cons)(x))(ys);
-            })(_(_(cmp)(x))(y));
+              return __(Fay$$cons,x,ys);
+            })(__(cmp,x,y));
           }
           return (function(){ throw (["unhandled case",$tmp1]); })();
         })(ys);
@@ -1208,7 +1208,7 @@ var Language$Fay$Stdlib$when = function($p1){
     return new $(function(){
       var m = $p2;
       var p = $p1;
-      return _(p) ? _(_(Fay$$then)(m))(_(Fay$$$_return)(Fay$$unit)) : _(Fay$$$_return)(Fay$$unit);
+      return _(p) ? __(Fay$$then,m,__(Fay$$$_return,Fay$$unit)) : __(Fay$$$_return,Fay$$unit);
     });
   };
 };
@@ -1227,7 +1227,7 @@ var Language$Fay$Stdlib$pred = function($p1){
 var Language$Fay$Stdlib$enumFrom = function($p1){
   return new $(function(){
     var i = $p1;
-    return _(_(Fay$$cons)(i))(_(Language$Fay$Stdlib$enumFrom)(_(Fay$$add)(_(i))(1)));
+    return __(Fay$$cons,i,__(Language$Fay$Stdlib$enumFrom,_(Fay$$add)(_(i))(1)));
   });
 };
 var Language$Fay$Stdlib$enumFromTo = function($p1){
@@ -1235,7 +1235,7 @@ var Language$Fay$Stdlib$enumFromTo = function($p1){
     return new $(function(){
       var n = $p2;
       var i = $p1;
-      return _(_(Fay$$gt)(_(i))(_(n))) ? null : _(_(Fay$$cons)(i))(_(_(Language$Fay$Stdlib$enumFromTo)(_(Fay$$add)(_(i))(1)))(n));
+      return _(_(Fay$$gt)(_(i))(_(n))) ? null : __(Fay$$cons,i,__(Language$Fay$Stdlib$enumFromTo,_(Fay$$add)(_(i))(1),n));
     });
   };
 };
@@ -1244,7 +1244,7 @@ var Language$Fay$Stdlib$enumFromBy = function($p1){
     return new $(function(){
       var by = $p2;
       var fr = $p1;
-      return _(_(Fay$$cons)(fr))(_(_(Language$Fay$Stdlib$enumFromBy)(_(Fay$$add)(_(fr))(_(by))))(by));
+      return __(Fay$$cons,fr,__(Language$Fay$Stdlib$enumFromBy,_(Fay$$add)(_(fr))(_(by)),by));
     });
   };
 };
@@ -1253,7 +1253,7 @@ var Language$Fay$Stdlib$enumFromThen = function($p1){
     return new $(function(){
       var th = $p2;
       var fr = $p1;
-      return _(_(Language$Fay$Stdlib$enumFromBy)(fr))(_(Fay$$sub)(_(th))(_(fr)));
+      return __(Language$Fay$Stdlib$enumFromBy,fr,_(Fay$$sub)(_(th))(_(fr)));
     });
   };
 };
@@ -1268,16 +1268,16 @@ var Language$Fay$Stdlib$enumFromByTo = function($p1){
           var neg = function($p1){
             return new $(function(){
               var x = $p1;
-              return _(_(Fay$$lt)(_(x))(_(to))) ? null : _(_(Fay$$cons)(x))(_(neg)(_(Fay$$add)(_(x))(_(by))));
+              return _(_(Fay$$lt)(_(x))(_(to))) ? null : __(Fay$$cons,x,__(neg,_(Fay$$add)(_(x))(_(by))));
             });
           };
           var pos = function($p1){
             return new $(function(){
               var x = $p1;
-              return _(_(Fay$$gt)(_(x))(_(to))) ? null : _(_(Fay$$cons)(x))(_(pos)(_(Fay$$add)(_(x))(_(by))));
+              return _(_(Fay$$gt)(_(x))(_(to))) ? null : __(Fay$$cons,x,__(pos,_(Fay$$add)(_(x))(_(by))));
             });
           };
-          return _(_(Fay$$lt)(_(by))(0)) ? _(neg)(fr) : _(pos)(fr);
+          return _(_(Fay$$lt)(_(by))(0)) ? __(neg,fr) : __(pos,fr);
         })();
       });
     };
@@ -1290,7 +1290,7 @@ var Language$Fay$Stdlib$enumFromThenTo = function($p1){
         var to = $p3;
         var th = $p2;
         var fr = $p1;
-        return _(_(_(Language$Fay$Stdlib$enumFromByTo)(fr))(_(Fay$$sub)(_(th))(_(fr))))(to);
+        return __(Language$Fay$Stdlib$enumFromByTo,fr,_(Fay$$sub)(_(th))(_(fr)),to);
       });
     };
   };
@@ -1308,7 +1308,7 @@ var Language$Fay$Stdlib$zipWith = function($p1){
             var a = $tmp1.car;
             var as = $tmp1.cdr;
             var f = $p1;
-            return _(_(Fay$$cons)(_(_(f)(a))(b)))(_(_(_(Language$Fay$Stdlib$zipWith)(f))(as))(bs));
+            return __(Fay$$cons,__(f,a,b),__(Language$Fay$Stdlib$zipWith,f,as,bs));
           }
         }
         return null;
@@ -1334,7 +1334,7 @@ var Language$Fay$Stdlib$zipWith3 = function($p1){
                 var a = $tmp1.car;
                 var as = $tmp1.cdr;
                 var f = $p1;
-                return _(_(Fay$$cons)(_(_(_(f)(a))(b))(c)))(_(_(_(_(Language$Fay$Stdlib$zipWith3)(f))(as))(bs))(cs));
+                return __(Fay$$cons,__(f,a,b,c),__(Language$Fay$Stdlib$zipWith3,f,as,bs,cs));
               }
             }
           }
@@ -1355,7 +1355,7 @@ var Language$Fay$Stdlib$zip = function($p1){
         if ($tmp1 instanceof Fay$$Cons) {
           var a = $tmp1.car;
           var as = $tmp1.cdr;
-          return _(_(Fay$$cons)(Fay$$list([a,b])))(_(_(Language$Fay$Stdlib$zip)(as))(bs));
+          return __(Fay$$cons,Fay$$list([a,b]),__(Language$Fay$Stdlib$zip,as,bs));
         }
       }
       return null;
@@ -1378,7 +1378,7 @@ var Language$Fay$Stdlib$zip3 = function($p1){
             if ($tmp1 instanceof Fay$$Cons) {
               var a = $tmp1.car;
               var as = $tmp1.cdr;
-              return _(_(Fay$$cons)(Fay$$list([a,b,c])))(_(_(_(Language$Fay$Stdlib$zip3)(as))(bs))(cs));
+              return __(Fay$$cons,Fay$$list([a,b,c]),__(Language$Fay$Stdlib$zip3,as,bs,cs));
             }
           }
         }
@@ -1399,10 +1399,10 @@ var Language$Fay$Stdlib$unzip = function($p1){
           if (Fay$$listLen(_($tmp1),2)) {
             var xs = Fay$$index(0)(_($tmp1));
             var ys = Fay$$index(1)(_($tmp1));
-            return Fay$$list([_(_(Fay$$cons)(x))(xs),_(_(Fay$$cons)(y))(ys)]);
+            return Fay$$list([__(Fay$$cons,x,xs),__(Fay$$cons,y,ys)]);
           }
           return (function(){ throw (["unhandled case",$tmp1]); })();
-        })(_(Language$Fay$Stdlib$unzip)(ps));
+        })(__(Language$Fay$Stdlib$unzip,ps));
       }
     }
     if (_($p1) === null) {
@@ -1425,10 +1425,10 @@ var Language$Fay$Stdlib$unzip3 = function($p1){
             var xs = Fay$$index(0)(_($tmp1));
             var ys = Fay$$index(1)(_($tmp1));
             var zs = Fay$$index(2)(_($tmp1));
-            return Fay$$list([_(_(Fay$$cons)(x))(xs),_(_(Fay$$cons)(y))(ys),_(_(Fay$$cons)(z))(zs)]);
+            return Fay$$list([__(Fay$$cons,x,xs),__(Fay$$cons,y,ys),__(Fay$$cons,z,zs)]);
           }
           return (function(){ throw (["unhandled case",$tmp1]); })();
-        })(_(Language$Fay$Stdlib$unzip3)(ps));
+        })(__(Language$Fay$Stdlib$unzip3,ps));
       }
     }
     if (_($p1) === null) {
@@ -1447,7 +1447,7 @@ var Language$Fay$Stdlib$lines = function($p1){
       var isLineBreak = function($p1){
         return new $(function(){
           var c = $p1;
-          return _(Fay$$or)(_(_(_(Fay$$eq)(c))("\r")))(_(_(_(Fay$$eq)(c))("\n")));
+          return _(Fay$$or)(_(__(Fay$$eq,c,"\r")))(_(__(Fay$$eq,c,"\n")));
         });
       };
       return (function($tmp1){
@@ -1460,16 +1460,16 @@ var Language$Fay$Stdlib$lines = function($p1){
           var $tmp2 = _(Fay$$index(1)(_($tmp1)));
           if ($tmp2 instanceof Fay$$Cons) {
             var cs = $tmp2.cdr;
-            return _(_(Fay$$cons)(a))(_(Language$Fay$Stdlib$lines)(cs));
+            return __(Fay$$cons,a,__(Language$Fay$Stdlib$lines,cs));
           }
         }
         return (function(){ throw (["unhandled case",$tmp1]); })();
-      })(_(_(Language$Fay$Stdlib$$_break)(isLineBreak))(s));
+      })(__(Language$Fay$Stdlib$$_break,isLineBreak,s));
     })();
   });
 };
 var Language$Fay$Stdlib$unlines = new $(function(){
-  return _(Language$Fay$Stdlib$intercalate)(Fay$$list("\n"));
+  return __(Language$Fay$Stdlib$intercalate,Fay$$list("\n"));
 });
 var Language$Fay$Stdlib$words = function($p1){
   return new $(function(){
@@ -1485,24 +1485,24 @@ var Language$Fay$Stdlib$words = function($p1){
             if (Fay$$listLen(_($tmp1),2)) {
               var a = Fay$$index(0)(_($tmp1));
               var b = Fay$$index(1)(_($tmp1));
-              return _(_(Fay$$cons)(a))(_(Language$Fay$Stdlib$words)(b));
+              return __(Fay$$cons,a,__(Language$Fay$Stdlib$words,b));
             }
             return (function(){ throw (["unhandled case",$tmp1]); })();
-          })(_(_(Language$Fay$Stdlib$$_break)(isSpace))(s));
+          })(__(Language$Fay$Stdlib$$_break,isSpace,s));
         });
       };
       var isSpace = function($p1){
         return new $(function(){
           var c = $p1;
-          return _(_(Language$Fay$Stdlib$elem)(c))(Fay$$list(" \t\r\n\u000c\u000b"));
+          return __(Language$Fay$Stdlib$elem,c,Fay$$list(" \t\r\n\u000c\u000b"));
         });
       };
-      return _(words$39$)(_(_(Language$Fay$Stdlib$dropWhile)(isSpace))(str));
+      return __(words$39$,__(Language$Fay$Stdlib$dropWhile,isSpace,str));
     })();
   });
 };
 var Language$Fay$Stdlib$unwords = new $(function(){
-  return _(Language$Fay$Stdlib$intercalate)(Fay$$list(" "));
+  return __(Language$Fay$Stdlib$intercalate,Fay$$list(" "));
 });
 var Language$Fay$Stdlib$flip = function($p1){
   return function($p2){
@@ -1511,7 +1511,7 @@ var Language$Fay$Stdlib$flip = function($p1){
         var y = $p3;
         var x = $p2;
         var f = $p1;
-        return _(_(f)(y))(x);
+        return __(f,y,x);
       });
     };
   };
@@ -1527,7 +1527,7 @@ var Language$Fay$Stdlib$maybe = function($p1){
         if (_($p3) instanceof $_Language$Fay$Stdlib$Just) {
           var x = _($p3).slot1;
           var f = $p2;
-          return _(f)(x);
+          return __(f,x);
         }
         throw ["unhandled case in maybe",[$p1,$p2,$p3]];
       });
@@ -1541,7 +1541,7 @@ var Language$Fay$Stdlib$$46$ = function($p1){
         var x = $p3;
         var g = $p2;
         var f = $p1;
-        return _(f)(_(g)(x));
+        return __(f,__(g,x));
       });
     };
   };
@@ -1551,7 +1551,7 @@ var Language$Fay$Stdlib$$43$$43$ = function($p1){
     return new $(function(){
       var y = $p2;
       var x = $p1;
-      return _(_(Language$Fay$Stdlib$conc)(x))(y);
+      return __(Language$Fay$Stdlib$conc,x,y);
     });
   };
 };
@@ -1560,7 +1560,7 @@ var Language$Fay$Stdlib$$36$ = function($p1){
     return new $(function(){
       var x = $p2;
       var f = $p1;
-      return _(f)(x);
+      return __(f,x);
     });
   };
 };
@@ -1572,7 +1572,7 @@ var Language$Fay$Stdlib$conc = function($p1){
       if ($tmp1 instanceof Fay$$Cons) {
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
-        return _(_(Fay$$cons)(x))(_(_(Language$Fay$Stdlib$conc)(xs))(ys));
+        return __(Fay$$cons,x,__(Language$Fay$Stdlib$conc,xs,ys));
       }
       var ys = $p2;
       if (_($p1) === null) {
@@ -1583,12 +1583,12 @@ var Language$Fay$Stdlib$conc = function($p1){
   };
 };
 var Language$Fay$Stdlib$concat = new $(function(){
-  return _(_(Language$Fay$Stdlib$foldr)(Language$Fay$Stdlib$conc))(null);
+  return __(Language$Fay$Stdlib$foldr,Language$Fay$Stdlib$conc,null);
 });
 var Language$Fay$Stdlib$concatMap = function($p1){
   return new $(function(){
     var f = $p1;
-    return _(_(Language$Fay$Stdlib$foldr)(_(_(Language$Fay$Stdlib$$46$)(Language$Fay$Stdlib$$43$$43$))(f)))(null);
+    return __(Language$Fay$Stdlib$foldr,__(Language$Fay$Stdlib$$46$,Language$Fay$Stdlib$$43$$43$,f),null);
   });
 };
 var Language$Fay$Stdlib$foldr = function($p1){
@@ -1605,7 +1605,7 @@ var Language$Fay$Stdlib$foldr = function($p1){
           var xs = $tmp1.cdr;
           var z = $p2;
           var f = $p1;
-          return _(_(f)(x))(_(_(_(Language$Fay$Stdlib$foldr)(f))(z))(xs));
+          return __(f,x,__(Language$Fay$Stdlib$foldr,f,z,xs));
         }
         throw ["unhandled case in foldr",[$p1,$p2,$p3]];
       });
@@ -1624,10 +1624,10 @@ var Language$Fay$Stdlib$foldr1 = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var f = $p1;
-        return _(_(f)(x))(_(_(Language$Fay$Stdlib$foldr1)(f))(xs));
+        return __(f,x,__(Language$Fay$Stdlib$foldr1,f,xs));
       }
       if (_($p2) === null) {
-        return _(Language$Fay$Stdlib$error)(Fay$$list("foldr1: empty list"));
+        return __(Language$Fay$Stdlib$error,Fay$$list("foldr1: empty list"));
       }
       throw ["unhandled case in foldr1",[$p1,$p2]];
     });
@@ -1647,7 +1647,7 @@ var Language$Fay$Stdlib$foldl = function($p1){
           var xs = $tmp1.cdr;
           var z = $p2;
           var f = $p1;
-          return _(_(_(Language$Fay$Stdlib$foldl)(f))(_(_(f)(z))(x)))(xs);
+          return __(Language$Fay$Stdlib$foldl,f,__(f,z,x),xs);
         }
         throw ["unhandled case in foldl",[$p1,$p2,$p3]];
       });
@@ -1662,10 +1662,10 @@ var Language$Fay$Stdlib$foldl1 = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var f = $p1;
-        return _(_(_(Language$Fay$Stdlib$foldl)(f))(x))(xs);
+        return __(Language$Fay$Stdlib$foldl,f,x,xs);
       }
       if (_($p2) === null) {
-        return _(Language$Fay$Stdlib$error)(Fay$$list("foldl1: empty list"));
+        return __(Language$Fay$Stdlib$error,Fay$$list("foldl1: empty list"));
       }
       throw ["unhandled case in foldl1",[$p1,$p2]];
     });
@@ -1680,7 +1680,7 @@ var Language$Fay$Stdlib$and = function($p1){
     if ($tmp1 instanceof Fay$$Cons) {
       var x = $tmp1.car;
       var xs = $tmp1.cdr;
-      return _(Fay$$and)(_(x))(_(_(Language$Fay$Stdlib$and)(xs)));
+      return _(Fay$$and)(_(x))(_(__(Language$Fay$Stdlib$and,xs)));
     }
     throw ["unhandled case in and",[$p1]];
   });
@@ -1694,7 +1694,7 @@ var Language$Fay$Stdlib$or = function($p1){
     if ($tmp1 instanceof Fay$$Cons) {
       var x = $tmp1.car;
       var xs = $tmp1.cdr;
-      return _(Fay$$or)(_(x))(_(_(Language$Fay$Stdlib$or)(xs)));
+      return _(Fay$$or)(_(x))(_(__(Language$Fay$Stdlib$or,xs)));
     }
     throw ["unhandled case in or",[$p1]];
   });
@@ -1710,7 +1710,7 @@ var Language$Fay$Stdlib$any = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var p = $p1;
-        return _(Fay$$or)(_(_(p)(x)))(_(_(_(Language$Fay$Stdlib$any)(p))(xs)));
+        return _(Fay$$or)(_(__(p,x)))(_(__(Language$Fay$Stdlib$any,p,xs)));
       }
       throw ["unhandled case in any",[$p1,$p2]];
     });
@@ -1727,7 +1727,7 @@ var Language$Fay$Stdlib$all = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var p = $p1;
-        return _(Fay$$and)(_(_(p)(x)))(_(_(_(Language$Fay$Stdlib$all)(p))(xs)));
+        return _(Fay$$and)(_(__(p,x)))(_(__(Language$Fay$Stdlib$all,p,xs)));
       }
       throw ["unhandled case in all",[$p1,$p2]];
     });
@@ -1736,37 +1736,37 @@ var Language$Fay$Stdlib$all = function($p1){
 var Language$Fay$Stdlib$maximum = function($p1){
   return new $(function(){
     if (_($p1) === null) {
-      return _(Language$Fay$Stdlib$error)(Fay$$list("maximum: empty list"));
+      return __(Language$Fay$Stdlib$error,Fay$$list("maximum: empty list"));
     }
     var xs = $p1;
-    return _(_(Language$Fay$Stdlib$foldl1)(Language$Fay$Stdlib$max))(xs);
+    return __(Language$Fay$Stdlib$foldl1,Language$Fay$Stdlib$max,xs);
   });
 };
 var Language$Fay$Stdlib$minimum = function($p1){
   return new $(function(){
     if (_($p1) === null) {
-      return _(Language$Fay$Stdlib$error)(Fay$$list("minimum: empty list"));
+      return __(Language$Fay$Stdlib$error,Fay$$list("minimum: empty list"));
     }
     var xs = $p1;
-    return _(_(Language$Fay$Stdlib$foldl1)(Language$Fay$Stdlib$min))(xs);
+    return __(Language$Fay$Stdlib$foldl1,Language$Fay$Stdlib$min,xs);
   });
 };
 var Language$Fay$Stdlib$product = function($p1){
   return new $(function(){
     if (_($p1) === null) {
-      return _(Language$Fay$Stdlib$error)(Fay$$list("product: empty list"));
+      return __(Language$Fay$Stdlib$error,Fay$$list("product: empty list"));
     }
     var xs = $p1;
-    return _(_(_(Language$Fay$Stdlib$foldl)(Fay$$mult))(1))(xs);
+    return __(Language$Fay$Stdlib$foldl,Fay$$mult,1,xs);
   });
 };
 var Language$Fay$Stdlib$sum = function($p1){
   return new $(function(){
     if (_($p1) === null) {
-      return _(Language$Fay$Stdlib$error)(Fay$$list("sum: empty list"));
+      return __(Language$Fay$Stdlib$error,Fay$$list("sum: empty list"));
     }
     var xs = $p1;
-    return _(_(_(Language$Fay$Stdlib$foldl)(Fay$$add))(0))(xs);
+    return __(Language$Fay$Stdlib$foldl,Fay$$add,0,xs);
   });
 };
 var Language$Fay$Stdlib$scanl = function($p1){
@@ -1776,7 +1776,7 @@ var Language$Fay$Stdlib$scanl = function($p1){
         var l = $p3;
         var z = $p2;
         var f = $p1;
-        return _(_(Fay$$cons)(z))((function($tmp1){
+        return __(Fay$$cons,z,(function($tmp1){
           if (_($tmp1) === null) {
             return null;
           }
@@ -1784,7 +1784,7 @@ var Language$Fay$Stdlib$scanl = function($p1){
           if ($tmp2 instanceof Fay$$Cons) {
             var x = $tmp2.car;
             var xs = $tmp2.cdr;
-            return _(_(_(Language$Fay$Stdlib$scanl)(f))(_(_(f)(z))(x)))(xs);
+            return __(Language$Fay$Stdlib$scanl,f,__(f,z,x),xs);
           }
           return (function(){ throw (["unhandled case",$tmp1]); })();
         })(l));
@@ -1803,7 +1803,7 @@ var Language$Fay$Stdlib$scanl1 = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var f = $p1;
-        return _(_(_(Language$Fay$Stdlib$scanl)(f))(x))(xs);
+        return __(Language$Fay$Stdlib$scanl,f,x,xs);
       }
       throw ["unhandled case in scanl1",[$p1,$p2]];
     });
@@ -1828,10 +1828,10 @@ var Language$Fay$Stdlib$scanr = function($p1){
             if ($tmp2 instanceof Fay$$Cons) {
               var h = $tmp2.car;
               var t = $tmp2.cdr;
-              return _(_(Fay$$cons)(_(_(f)(x))(h)))(_(_(Fay$$cons)(h))(t));
+              return __(Fay$$cons,__(f,x,h),__(Fay$$cons,h,t));
             }
             return Language$Fay$Stdlib$$_undefined;
-          })(_(_(_(Language$Fay$Stdlib$scanr)(f))(z))(xs));
+          })(__(Language$Fay$Stdlib$scanr,f,z,xs));
         }
         throw ["unhandled case in scanr",[$p1,$p2,$p3]];
       });
@@ -1858,10 +1858,10 @@ var Language$Fay$Stdlib$scanr1 = function($p1){
           if ($tmp2 instanceof Fay$$Cons) {
             var h = $tmp2.car;
             var t = $tmp2.cdr;
-            return _(_(Fay$$cons)(_(_(f)(x))(h)))(_(_(Fay$$cons)(h))(t));
+            return __(Fay$$cons,__(f,x,h),__(Fay$$cons,h,t));
           }
           return Language$Fay$Stdlib$$_undefined;
-        })(_(_(Language$Fay$Stdlib$scanr1)(f))(xs));
+        })(__(Language$Fay$Stdlib$scanr1,f,xs));
       }
       throw ["unhandled case in scanr1",[$p1,$p2]];
     });
@@ -1881,7 +1881,7 @@ var Language$Fay$Stdlib$lookup = function($p1){
           var y = Fay$$index(1)(_($tmp1.car));
           var xys = $tmp1.cdr;
           var key = $p1;
-          return _(_(_(Fay$$eq)(key))(x)) ? _(Language$Fay$Stdlib$Just)(y) : _(_(Language$Fay$Stdlib$lookup)(key))(xys);
+          return _(__(Fay$$eq,key,x)) ? __(Language$Fay$Stdlib$Just,y) : __(Language$Fay$Stdlib$lookup,key,xys);
         }
       }
       throw ["unhandled case in lookup",[$p1,$p2]];
@@ -1899,7 +1899,7 @@ var Language$Fay$Stdlib$intersperse = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var sep = $p1;
-        return _(_(Fay$$cons)(x))(_(_(Language$Fay$Stdlib$prependToAll)(sep))(xs));
+        return __(Fay$$cons,x,__(Language$Fay$Stdlib$prependToAll,sep,xs));
       }
       throw ["unhandled case in intersperse",[$p1,$p2]];
     });
@@ -1916,7 +1916,7 @@ var Language$Fay$Stdlib$prependToAll = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var sep = $p1;
-        return _(_(Fay$$cons)(sep))(_(_(Fay$$cons)(x))(_(_(Language$Fay$Stdlib$prependToAll)(sep))(xs)));
+        return __(Fay$$cons,sep,__(Fay$$cons,x,__(Language$Fay$Stdlib$prependToAll,sep,xs)));
       }
       throw ["unhandled case in prependToAll",[$p1,$p2]];
     });
@@ -1927,7 +1927,7 @@ var Language$Fay$Stdlib$intercalate = function($p1){
     return new $(function(){
       var xss = $p2;
       var xs = $p1;
-      return _(Language$Fay$Stdlib$concat)(_(_(Language$Fay$Stdlib$intersperse)(xs))(xss));
+      return __(Language$Fay$Stdlib$concat,__(Language$Fay$Stdlib$intersperse,xs,xss));
     });
   };
 };
@@ -1939,10 +1939,10 @@ var Language$Fay$Stdlib$forM_ = function($p1){
       if ($tmp1 instanceof Fay$$Cons) {
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
-        return _(_(Fay$$then)(_(m)(x)))(_(_(Language$Fay$Stdlib$forM_)(xs))(m));
+        return __(Fay$$then,__(m,x),__(Language$Fay$Stdlib$forM_,xs,m));
       }
       if (_($p1) === null) {
-        return _(Fay$$$_return)(Fay$$unit);
+        return __(Fay$$$_return,Fay$$unit);
       }
       throw ["unhandled case in forM_",[$p1,$p2]];
     });
@@ -1956,10 +1956,10 @@ var Language$Fay$Stdlib$mapM_ = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var m = $p1;
-        return _(_(Fay$$then)(_(m)(x)))(_(_(Language$Fay$Stdlib$mapM_)(m))(xs));
+        return __(Fay$$then,__(m,x),__(Language$Fay$Stdlib$mapM_,m,xs));
       }
       if (_($p2) === null) {
-        return _(Fay$$$_return)(Fay$$unit);
+        return __(Fay$$$_return,Fay$$unit);
       }
       throw ["unhandled case in mapM_",[$p1,$p2]];
     });
@@ -1976,7 +1976,7 @@ var Language$Fay$Stdlib$$_const = function($p1){
 var Language$Fay$Stdlib$length = function($p1){
   return new $(function(){
     var xs = $p1;
-    return _(_(Language$Fay$Stdlib$length$39$)(0))(xs);
+    return __(Language$Fay$Stdlib$length$39$,0,xs);
   });
 };
 var Language$Fay$Stdlib$length$39$ = function($p1){
@@ -1986,7 +1986,7 @@ var Language$Fay$Stdlib$length$39$ = function($p1){
       if ($tmp1 instanceof Fay$$Cons) {
         var xs = $tmp1.cdr;
         var acc = $p1;
-        return _(_(Language$Fay$Stdlib$length$39$)(_(Fay$$add)(_(acc))(1)))(xs);
+        return __(Language$Fay$Stdlib$length$39$,_(Fay$$add)(_(acc))(1),xs);
       }
       var acc = $p1;
       return acc;
@@ -1998,7 +1998,7 @@ var Language$Fay$Stdlib$rem = function($p1){
     return new $(function(){
       var y = $p2;
       var x = $p1;
-      return _(_(_(Fay$$eq)(y))(0)) ? _(Language$Fay$Stdlib$error)(Fay$$list("Division by zero")) : _(_(Language$Fay$Stdlib$rem$39$)(x))(y);
+      return _(__(Fay$$eq,y,0)) ? __(Language$Fay$Stdlib$error,Fay$$list("Division by zero")) : __(Language$Fay$Stdlib$rem$39$,x,y);
     });
   };
 };
@@ -2014,7 +2014,7 @@ var Language$Fay$Stdlib$quot = function($p1){
     return new $(function(){
       var y = $p2;
       var x = $p1;
-      return _(_(_(Fay$$eq)(y))(0)) ? _(Language$Fay$Stdlib$error)(Fay$$list("Division by zero")) : _(_(Language$Fay$Stdlib$quot$39$)(x))(y);
+      return _(__(Fay$$eq,y,0)) ? __(Language$Fay$Stdlib$error,Fay$$list("Division by zero")) : __(Language$Fay$Stdlib$quot$39$,x,y);
     });
   };
 };
@@ -2030,7 +2030,7 @@ var Language$Fay$Stdlib$quotRem = function($p1){
     return new $(function(){
       var y = $p2;
       var x = $p1;
-      return Fay$$list([_(_(Language$Fay$Stdlib$quot)(x))(y),_(_(Language$Fay$Stdlib$rem)(x))(y)]);
+      return Fay$$list([__(Language$Fay$Stdlib$quot,x,y),__(Language$Fay$Stdlib$rem,x,y)]);
     });
   };
 };
@@ -2040,14 +2040,14 @@ var Language$Fay$Stdlib$div = function($p1){
       var y = $p2;
       var x = $p1;
       if (_(_(Fay$$and)(_(_(Fay$$gt)(_(x))(0)))(_(_(Fay$$lt)(_(y))(0))))) {
-        return _(Fay$$sub)(_(_(_(Language$Fay$Stdlib$quot)(_(Fay$$sub)(_(x))(1)))(y)))(1);
+        return _(Fay$$sub)(_(__(Language$Fay$Stdlib$quot,_(Fay$$sub)(_(x))(1),y)))(1);
       } else {if (_(_(Fay$$and)(_(_(Fay$$lt)(_(x))(0)))(_(_(Fay$$gt)(_(y))(0))))) {
-          return _(Fay$$sub)(_(_(_(Language$Fay$Stdlib$quot)(_(Fay$$add)(_(x))(1)))(y)))(1);
+          return _(Fay$$sub)(_(__(Language$Fay$Stdlib$quot,_(Fay$$add)(_(x))(1),y)))(1);
         }
       }
       var y = $p2;
       var x = $p1;
-      return _(_(Language$Fay$Stdlib$quot)(x))(y);
+      return __(Language$Fay$Stdlib$quot,x,y);
     });
   };
 };
@@ -2057,14 +2057,14 @@ var Language$Fay$Stdlib$mod = function($p1){
       var y = $p2;
       var x = $p1;
       if (_(_(Fay$$and)(_(_(Fay$$gt)(_(x))(0)))(_(_(Fay$$lt)(_(y))(0))))) {
-        return _(Fay$$add)(_(_(Fay$$add)(_(_(_(Language$Fay$Stdlib$rem)(_(Fay$$sub)(_(x))(1)))(y)))(_(y))))(1);
+        return _(Fay$$add)(_(_(Fay$$add)(_(__(Language$Fay$Stdlib$rem,_(Fay$$sub)(_(x))(1),y)))(_(y))))(1);
       } else {if (_(_(Fay$$and)(_(_(Fay$$lt)(_(x))(0)))(_(_(Fay$$gt)(_(y))(0))))) {
-          return _(Fay$$sub)(_(_(Fay$$add)(_(_(_(Language$Fay$Stdlib$rem)(_(Fay$$add)(_(x))(1)))(y)))(_(y))))(1);
+          return _(Fay$$sub)(_(_(Fay$$add)(_(__(Language$Fay$Stdlib$rem,_(Fay$$add)(_(x))(1),y)))(_(y))))(1);
         }
       }
       var y = $p2;
       var x = $p1;
-      return _(_(Language$Fay$Stdlib$rem)(x))(y);
+      return __(Language$Fay$Stdlib$rem,x,y);
     });
   };
 };
@@ -2081,7 +2081,7 @@ var Language$Fay$Stdlib$divMod = function($p1){
             return Fay$$list([_(Fay$$sub)(_(q))(1),_(Fay$$add)(_(_(Fay$$add)(_(r))(_(y))))(1)]);
           }
           return (function(){ throw (["unhandled case",$tmp1]); })();
-        })(_(_(Language$Fay$Stdlib$quotRem)(_(Fay$$sub)(_(x))(1)))(y));
+        })(__(Language$Fay$Stdlib$quotRem,_(Fay$$sub)(_(x))(1),y));
       } else {if (_(_(Fay$$and)(_(_(Fay$$lt)(_(x))(0)))(_(_(Fay$$gt)(_(y))(1))))) {
           return (function($tmp1){
             if (Fay$$listLen(_($tmp1),2)) {
@@ -2090,12 +2090,12 @@ var Language$Fay$Stdlib$divMod = function($p1){
               return Fay$$list([_(Fay$$sub)(_(q))(1),_(Fay$$sub)(_(_(Fay$$add)(_(r))(_(y))))(1)]);
             }
             return (function(){ throw (["unhandled case",$tmp1]); })();
-          })(_(_(Language$Fay$Stdlib$quotRem)(_(Fay$$add)(_(x))(1)))(y));
+          })(__(Language$Fay$Stdlib$quotRem,_(Fay$$add)(_(x))(1),y));
         }
       }
       var y = $p2;
       var x = $p1;
-      return _(_(Language$Fay$Stdlib$quotRem)(x))(y);
+      return __(Language$Fay$Stdlib$quotRem,x,y);
     });
   };
 };
@@ -2131,7 +2131,7 @@ var Language$Fay$Stdlib$reverse = function($p1){
     if ($tmp1 instanceof Fay$$Cons) {
       var x = $tmp1.car;
       var xs = $tmp1.cdr;
-      return _(_(Language$Fay$Stdlib$$43$$43$)(_(Language$Fay$Stdlib$reverse)(xs)))(Fay$$list([x]));
+      return __(Language$Fay$Stdlib$$43$$43$,__(Language$Fay$Stdlib$reverse,xs),Fay$$list([x]));
     }
     if (_($p1) === null) {
       return null;
@@ -2144,7 +2144,7 @@ var Language$Fay$Stdlib$$61$$60$$60$ = function($p1){
     return new $(function(){
       var x = $p2;
       var f = $p1;
-      return _(_(Fay$$bind)(x))(f);
+      return __(Fay$$bind,x,f);
     });
   };
 };
@@ -2157,30 +2157,30 @@ var Language$Fay$Stdlib$sequence = function($p1){
           return new $(function(){
             var m$39$ = $p2;
             var m = $p1;
-            return _(_(Fay$$bind)(m))(function($p1){
+            return __(Fay$$bind,m,function($p1){
               var x = $p1;
-              return _(_(Fay$$bind)(m$39$))(function($p1){
+              return __(Fay$$bind,m$39$,function($p1){
                 var xs = $p1;
-                return _(Fay$$$_return)(_(_(Fay$$cons)(x))(xs));
+                return __(Fay$$$_return,__(Fay$$cons,x,xs));
               });
             });
           });
         };
       };
-      return _(_(_(Language$Fay$Stdlib$foldr)(k))(_(Fay$$$_return)(null)))(ms);
+      return __(Language$Fay$Stdlib$foldr,k,__(Fay$$$_return,null),ms);
     })();
   });
 };
 var Language$Fay$Stdlib$sequence_ = function($p1){
   return new $(function(){
     if (_($p1) === null) {
-      return _(Fay$$$_return)(Fay$$unit);
+      return __(Fay$$$_return,Fay$$unit);
     }
     var $tmp1 = _($p1);
     if ($tmp1 instanceof Fay$$Cons) {
       var m = $tmp1.car;
       var ms = $tmp1.cdr;
-      return _(_(Fay$$then)(m))(_(Language$Fay$Stdlib$sequence_)(ms));
+      return __(Fay$$then,m,__(Language$Fay$Stdlib$sequence_,ms));
     }
     throw ["unhandled case in sequence_",[$p1]];
   });
@@ -2201,7 +2201,7 @@ var Language$Fay$Stdlib$until = function($p1){
         var x = $p3;
         var f = $p2;
         var p = $p1;
-        return _(_(p)(x)) ? x : _(_(_(Language$Fay$Stdlib$until)(p))(f))(_(f)(x));
+        return _(__(p,x)) ? x : __(Language$Fay$Stdlib$until,p,f,__(f,x));
       });
     };
   };
@@ -2211,7 +2211,7 @@ var Language$Fay$Stdlib$$36$$33$ = function($p1){
     return new $(function(){
       var x = $p2;
       var f = $p1;
-      return _(_(Fay$$seq)(x))(_(f)(x));
+      return __(Fay$$seq,x,__(f,x));
     });
   };
 };
@@ -2225,7 +2225,7 @@ var Language$Fay$Stdlib$$33$$33$ = function($p1){
           return function($p2){
             return new $(function(){
               if (_($p1) === null) {
-                return _(Language$Fay$Stdlib$error)(Fay$$list("(!!): index too large"));
+                return __(Language$Fay$Stdlib$error,Fay$$list("(!!): index too large"));
               }
               if (_($p2) === 0) {
                 var $tmp1 = _($p1);
@@ -2238,13 +2238,13 @@ var Language$Fay$Stdlib$$33$$33$ = function($p1){
               var $tmp1 = _($p1);
               if ($tmp1 instanceof Fay$$Cons) {
                 var t = $tmp1.cdr;
-                return _(_(go)(t))(_(Fay$$sub)(_(n))(1));
+                return __(go,t,_(Fay$$sub)(_(n))(1));
               }
               throw ["unhandled case in go",[$p1,$p2]];
             });
           };
         };
-        return _(_(Fay$$lt)(_(b))(0)) ? _(Language$Fay$Stdlib$error)(Fay$$list("(!!): negative index")) : _(_(go)(a))(b);
+        return _(_(Fay$$lt)(_(b))(0)) ? __(Language$Fay$Stdlib$error,Fay$$list("(!!): negative index")) : __(go,a,b);
       })();
     });
   };
@@ -2252,7 +2252,7 @@ var Language$Fay$Stdlib$$33$$33$ = function($p1){
 var Language$Fay$Stdlib$head = function($p1){
   return new $(function(){
     if (_($p1) === null) {
-      return _(Language$Fay$Stdlib$error)(Fay$$list("head: empty list"));
+      return __(Language$Fay$Stdlib$error,Fay$$list("head: empty list"));
     }
     var $tmp1 = _($p1);
     if ($tmp1 instanceof Fay$$Cons) {
@@ -2265,7 +2265,7 @@ var Language$Fay$Stdlib$head = function($p1){
 var Language$Fay$Stdlib$tail = function($p1){
   return new $(function(){
     if (_($p1) === null) {
-      return _(Language$Fay$Stdlib$error)(Fay$$list("tail: empty list"));
+      return __(Language$Fay$Stdlib$error,Fay$$list("tail: empty list"));
     }
     var $tmp1 = _($p1);
     if ($tmp1 instanceof Fay$$Cons) {
@@ -2278,7 +2278,7 @@ var Language$Fay$Stdlib$tail = function($p1){
 var Language$Fay$Stdlib$init = function($p1){
   return new $(function(){
     if (_($p1) === null) {
-      return _(Language$Fay$Stdlib$error)(Fay$$list("init: empty list"));
+      return __(Language$Fay$Stdlib$error,Fay$$list("init: empty list"));
     }
     if (Fay$$listLen(_($p1),1)) {
       var a = Fay$$index(0)(_($p1));
@@ -2288,7 +2288,7 @@ var Language$Fay$Stdlib$init = function($p1){
     if ($tmp1 instanceof Fay$$Cons) {
       var h = $tmp1.car;
       var t = $tmp1.cdr;
-      return _(_(Fay$$cons)(h))(_(Language$Fay$Stdlib$init)(t));
+      return __(Fay$$cons,h,__(Language$Fay$Stdlib$init,t));
     }
     throw ["unhandled case in init",[$p1]];
   });
@@ -2296,7 +2296,7 @@ var Language$Fay$Stdlib$init = function($p1){
 var Language$Fay$Stdlib$last = function($p1){
   return new $(function(){
     if (_($p1) === null) {
-      return _(Language$Fay$Stdlib$error)(Fay$$list("last: empty list"));
+      return __(Language$Fay$Stdlib$error,Fay$$list("last: empty list"));
     }
     if (Fay$$listLen(_($p1),1)) {
       var a = Fay$$index(0)(_($p1));
@@ -2305,7 +2305,7 @@ var Language$Fay$Stdlib$last = function($p1){
     var $tmp1 = _($p1);
     if ($tmp1 instanceof Fay$$Cons) {
       var t = $tmp1.cdr;
-      return _(Language$Fay$Stdlib$last)(t);
+      return __(Language$Fay$Stdlib$last,t);
     }
     throw ["unhandled case in last",[$p1]];
   });
@@ -2315,14 +2315,14 @@ var Language$Fay$Stdlib$iterate = function($p1){
     return new $(function(){
       var x = $p2;
       var f = $p1;
-      return _(_(Fay$$cons)(x))(_(_(Language$Fay$Stdlib$iterate)(f))(_(f)(x)));
+      return __(Fay$$cons,x,__(Language$Fay$Stdlib$iterate,f,__(f,x)));
     });
   };
 };
 var Language$Fay$Stdlib$repeat = function($p1){
   return new $(function(){
     var x = $p1;
-    return _(_(Fay$$cons)(x))(_(Language$Fay$Stdlib$repeat)(x));
+    return __(Fay$$cons,x,__(Language$Fay$Stdlib$repeat,x));
   });
 };
 var Language$Fay$Stdlib$replicate = function($p1){
@@ -2333,19 +2333,19 @@ var Language$Fay$Stdlib$replicate = function($p1){
       }
       var x = $p2;
       var n = $p1;
-      return _(_(Fay$$lt)(_(n))(0)) ? _(Language$Fay$Stdlib$error)(Fay$$list("replicate: negative length")) : _(_(Fay$$cons)(x))(_(_(Language$Fay$Stdlib$replicate)(_(Fay$$sub)(_(n))(1)))(x));
+      return _(_(Fay$$lt)(_(n))(0)) ? __(Language$Fay$Stdlib$error,Fay$$list("replicate: negative length")) : __(Fay$$cons,x,__(Language$Fay$Stdlib$replicate,_(Fay$$sub)(_(n))(1),x));
     });
   };
 };
 var Language$Fay$Stdlib$cycle = function($p1){
   return new $(function(){
     if (_($p1) === null) {
-      return _(Language$Fay$Stdlib$error)(Fay$$list("cycle: empty list"));
+      return __(Language$Fay$Stdlib$error,Fay$$list("cycle: empty list"));
     }
     var xs = $p1;
     return (function(){
       var xs$39$ = new $(function(){
-        return _(_(Language$Fay$Stdlib$$43$$43$)(xs))(xs$39$);
+        return __(Language$Fay$Stdlib$$43$$43$,xs,xs$39$);
       });
       return xs$39$;
     })();
@@ -2365,7 +2365,7 @@ var Language$Fay$Stdlib$take = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var n = $p1;
-        return _(_(Fay$$lt)(_(n))(0)) ? _(Language$Fay$Stdlib$error)(Fay$$list("take: negative length")) : _(_(Fay$$cons)(x))(_(_(Language$Fay$Stdlib$take)(_(Fay$$sub)(_(n))(1)))(xs));
+        return _(_(Fay$$lt)(_(n))(0)) ? __(Language$Fay$Stdlib$error,Fay$$list("take: negative length")) : __(Fay$$cons,x,__(Language$Fay$Stdlib$take,_(Fay$$sub)(_(n))(1),xs));
       }
       throw ["unhandled case in take",[$p1,$p2]];
     });
@@ -2385,7 +2385,7 @@ var Language$Fay$Stdlib$drop = function($p1){
       if ($tmp1 instanceof Fay$$Cons) {
         var xs = $tmp1.cdr;
         var n = $p1;
-        return _(_(Fay$$lt)(_(n))(0)) ? _(Language$Fay$Stdlib$error)(Fay$$list("drop: negative length")) : _(_(Language$Fay$Stdlib$drop)(_(Fay$$sub)(_(n))(1)))(xs);
+        return _(_(Fay$$lt)(_(n))(0)) ? __(Language$Fay$Stdlib$error,Fay$$list("drop: negative length")) : __(Language$Fay$Stdlib$drop,_(Fay$$sub)(_(n))(1),xs);
       }
       throw ["unhandled case in drop",[$p1,$p2]];
     });
@@ -2406,14 +2406,14 @@ var Language$Fay$Stdlib$splitAt = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var n = $p1;
-        return _(_(Fay$$lt)(_(n))(0)) ? _(Language$Fay$Stdlib$error)(Fay$$list("splitAt: negative length")) : (function($tmp1){
+        return _(_(Fay$$lt)(_(n))(0)) ? __(Language$Fay$Stdlib$error,Fay$$list("splitAt: negative length")) : (function($tmp1){
           if (Fay$$listLen(_($tmp1),2)) {
             var a = Fay$$index(0)(_($tmp1));
             var b = Fay$$index(1)(_($tmp1));
-            return Fay$$list([_(_(Fay$$cons)(x))(a),b]);
+            return Fay$$list([__(Fay$$cons,x,a),b]);
           }
           return (function(){ throw (["unhandled case",$tmp1]); })();
-        })(_(_(Language$Fay$Stdlib$splitAt)(_(Fay$$sub)(_(n))(1)))(xs));
+        })(__(Language$Fay$Stdlib$splitAt,_(Fay$$sub)(_(n))(1),xs));
       }
       throw ["unhandled case in splitAt",[$p1,$p2]];
     });
@@ -2430,7 +2430,7 @@ var Language$Fay$Stdlib$takeWhile = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var p = $p1;
-        return _(_(p)(x)) ? _(_(Fay$$cons)(x))(_(_(Language$Fay$Stdlib$takeWhile)(p))(xs)) : null;
+        return _(__(p,x)) ? __(Fay$$cons,x,__(Language$Fay$Stdlib$takeWhile,p,xs)) : null;
       }
       throw ["unhandled case in takeWhile",[$p1,$p2]];
     });
@@ -2447,7 +2447,7 @@ var Language$Fay$Stdlib$dropWhile = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var p = $p1;
-        return _(_(p)(x)) ? _(_(Language$Fay$Stdlib$dropWhile)(p))(xs) : _(_(Fay$$cons)(x))(xs);
+        return _(__(p,x)) ? __(Language$Fay$Stdlib$dropWhile,p,xs) : __(Fay$$cons,x,xs);
       }
       throw ["unhandled case in dropWhile",[$p1,$p2]];
     });
@@ -2464,14 +2464,14 @@ var Language$Fay$Stdlib$span = function($p1){
         var x = $tmp1.car;
         var xs = $tmp1.cdr;
         var p = $p1;
-        return _(_(p)(x)) ? (function($tmp1){
+        return _(__(p,x)) ? (function($tmp1){
           if (Fay$$listLen(_($tmp1),2)) {
             var a = Fay$$index(0)(_($tmp1));
             var b = Fay$$index(1)(_($tmp1));
-            return Fay$$list([_(_(Fay$$cons)(x))(a),b]);
+            return Fay$$list([__(Fay$$cons,x,a),b]);
           }
           return (function(){ throw (["unhandled case",$tmp1]); })();
-        })(_(_(Language$Fay$Stdlib$span)(p))(xs)) : Fay$$list([null,_(_(Fay$$cons)(x))(xs)]);
+        })(__(Language$Fay$Stdlib$span,p,xs)) : Fay$$list([null,__(Fay$$cons,x,xs)]);
       }
       throw ["unhandled case in span",[$p1,$p2]];
     });
@@ -2480,7 +2480,7 @@ var Language$Fay$Stdlib$span = function($p1){
 var Language$Fay$Stdlib$$_break = function($p1){
   return new $(function(){
     var p = $p1;
-    return _(Language$Fay$Stdlib$span)(_(_(Language$Fay$Stdlib$$46$)(Language$Fay$Stdlib$not))(p));
+    return __(Language$Fay$Stdlib$span,__(Language$Fay$Stdlib$$46$,Language$Fay$Stdlib$not,p));
   });
 };
 var Language$Fay$Stdlib$print = function($p1){
@@ -3252,13 +3252,13 @@ var JQuery$DeepWithDataAndEvents = new $(function(){
 var JQuery$clone = function($p1){
   return new $(function(){
     if (_($p1) instanceof $_JQuery$WithoutDataAndEvents) {
-      return _(JQuery$ffi)(Fay$$list("%2.clone(false)"));
+      return __(JQuery$ffi,Fay$$list("%2.clone(false)"));
     }
     if (_($p1) instanceof $_JQuery$WithDataAndEvents) {
-      return _(JQuery$ffi)(Fay$$list("%2.clone(true, false)"));
+      return __(JQuery$ffi,Fay$$list("%2.clone(true, false)"));
     }
     if (_($p1) instanceof $_JQuery$DeepWithDataAndEvents) {
-      return _(JQuery$ffi)(Fay$$list("%2.clone(true, true)"));
+      return __(JQuery$ffi,Fay$$list("%2.clone(true, true)"));
     }
     throw ["unhandled case in clone",[$p1]];
   });
@@ -3873,23 +3873,120 @@ var Main$alert = function($p1){
     return Fay$$jsToFay(["action",[["unknown"]]],window.alert(Fay$$fayToJs(["unknown"],$p1)));
   });
 };
-var Main$consoleLog = function($p1){
+var $_Main$Attr = function(slot1,slot2){
+  this.slot1 = slot1;
+  this.slot2 = slot2;
+};
+var Main$Attr = function(slot1){
+  return function(slot2){
+    return new $(function(){
+      return new $_Main$Attr(slot1,slot2);
+    });
+  };
+};
+var $_Main$Elem = function(slot1,slot2,slot3){
+  this.slot1 = slot1;
+  this.slot2 = slot2;
+  this.slot3 = slot3;
+};
+var Main$Elem = function(slot1){
+  return function(slot2){
+    return function(slot3){
+      return new $(function(){
+        return new $_Main$Elem(slot1,slot2,slot3);
+      });
+    };
+  };
+};
+var $_Main$CData = function(slot1){
+  this.slot1 = slot1;
+};
+var Main$CData = function(slot1){
   return new $(function(){
-    return Fay$$jsToFay(["action",[["unknown"]]],window.console.log(Fay$$fayToJs(["unknown"],$p1)));
+    return new $_Main$CData(slot1);
+  });
+};
+var Main$buildAttr = function($p1){
+  return new $(function(){
+    if (_($p1) instanceof $_Main$Attr) {
+      var k = _($p1).slot1;
+      var v = _($p1).slot2;
+      return __(Language$Fay$Stdlib$$43$$43$,Fay$$list(" "),__(Language$Fay$Stdlib$$43$$43$,k,__(Language$Fay$Stdlib$$43$$43$,Fay$$list("='"),__(Language$Fay$Stdlib$$43$$43$,v,Fay$$list("'")))));
+    }
+    throw ["unhandled case in buildAttr",[$p1]];
+  });
+};
+var Main$buildElem = function($p1){
+  return new $(function(){
+    if (_($p1) instanceof $_Main$CData) {
+      var s = _($p1).slot1;
+      return s;
+    }
+    if (_($p1) instanceof $_Main$Elem) {
+      var tag = _($p1).slot1;
+      var attrs = _($p1).slot2;
+      var childs = _($p1).slot3;
+      return __(Language$Fay$Stdlib$$43$$43$,Fay$$list("<"),__(Language$Fay$Stdlib$$43$$43$,tag,__(Language$Fay$Stdlib$$43$$43$,__(Language$Fay$Stdlib$concatMap,Main$buildAttr,attrs),__(Language$Fay$Stdlib$$43$$43$,Fay$$list(">"),__(Language$Fay$Stdlib$$43$$43$,__(Language$Fay$Stdlib$concatMap,Main$buildElem,childs),__(Language$Fay$Stdlib$$43$$43$,Fay$$list("</"),__(Language$Fay$Stdlib$$43$$43$,tag,Fay$$list(">"))))))));
+    }
+    throw ["unhandled case in buildElem",[$p1]];
+  });
+};
+var Main$writeRaw = function($p1){
+  return new $(function(){
+    return Fay$$jsToFay(["action",[["unknown"]]],document.write(Fay$$fayToJs(["string"],$p1)));
+  });
+};
+var Main$writeElem = new $(function(){
+  return __(Language$Fay$Stdlib$$46$,Main$writeRaw,Main$buildElem);
+});
+var Main$printElem = function($p1){
+  return new $(function(){
+    var f = $p1;
+    return __(Fay$$bind,__(Fay$$bind,f,JQuery$getHtml),Language$Fay$Stdlib$putStrLn);
   });
 };
 var Main$main = new $(function(){
-  return _(_(Fay$$then)(_(Main$consoleLog)(Fay$$list("Entered main..."))))(_(_(Fay$$then)(_(_(Language$Fay$Stdlib$$36$)(Main$consoleLog))(_(Fay$$$_return)(Fay$$list("Entered main...")))))(_(_(Fay$$bind)(_(JQuery$select)(Fay$$list("body"))))(function($p1){
-    var body = $p1;
-    return _(_(Fay$$bind)(_(JQuery$getHtml)(body)))(function($p1){
-      var bodyContents = $p1;
-      return _(_(Fay$$then)(_(_(Language$Fay$Stdlib$$36$)(Main$consoleLog))(_(JQuery$getHtml)(body))))(_(Main$consoleLog)(bodyContents));
-    });
-  })));
+  return __(Fay$$then,__(Language$Fay$Stdlib$putStrLn,Fay$$list("Entered main...")),__(Fay$$then,__(Language$Fay$Stdlib$$36$,Main$writeElem,__(Main$Elem,Fay$$list("h4"),null,Fay$$list([__(Main$CData,Fay$$list("test"))]))),__(Fay$$then,__(Language$Fay$Stdlib$$36$,Main$printElem,__(JQuery$select,Fay$$list("body"))),__(Language$Fay$Stdlib$putStrLn,Fay$$list("...finished main.")))));
 });
 var Fay$$fayToJsUserDefined = function(type,obj){
   var _obj = _(obj);
   var argTypes = type[2];
+  if (_obj instanceof $_Main$CData) {
+    var obj_ = {"instance": "CData"};
+    var obj_slot1 = Fay$$fayToJs(["string"],_(_obj.slot1));
+    if (undefined !== obj_slot1) {
+      obj_.slot1 = obj_slot1;
+    }
+    return obj_;
+  }
+  if (_obj instanceof $_Main$Elem) {
+    var obj_ = {"instance": "Elem"};
+    var obj_slot1 = Fay$$fayToJs(["string"],_(_obj.slot1));
+    if (undefined !== obj_slot1) {
+      obj_.slot1 = obj_slot1;
+    }
+    var obj_slot2 = Fay$$fayToJs(["list",[["user","Attr",[]]]],_(_obj.slot2));
+    if (undefined !== obj_slot2) {
+      obj_.slot2 = obj_slot2;
+    }
+    var obj_slot3 = Fay$$fayToJs(["list",[["user","Elem",[]]]],_(_obj.slot3));
+    if (undefined !== obj_slot3) {
+      obj_.slot3 = obj_slot3;
+    }
+    return obj_;
+  }
+  if (_obj instanceof $_Main$Attr) {
+    var obj_ = {"instance": "Attr"};
+    var obj_slot1 = Fay$$fayToJs(["string"],_(_obj.slot1));
+    if (undefined !== obj_slot1) {
+      obj_.slot1 = obj_slot1;
+    }
+    var obj_slot2 = Fay$$fayToJs(["string"],_(_obj.slot2));
+    if (undefined !== obj_slot2) {
+      obj_.slot2 = obj_slot2;
+    }
+    return obj_;
+  }
   if (_obj instanceof $_JQuery$DeepWithDataAndEvents) {
     var obj_ = {"instance": "DeepWithDataAndEvents"};
     return obj_;
@@ -3957,6 +4054,15 @@ var Fay$$fayToJsUserDefined = function(type,obj){
   return obj;
 };
 var Fay$$jsToFayUserDefined = function(type,obj){
+  if (obj["instance"] === "CData") {
+    return new $_Main$CData(Fay$$jsToFay(["string"],obj["slot1"]));
+  }
+  if (obj["instance"] === "Elem") {
+    return new $_Main$Elem(Fay$$jsToFay(["string"],obj["slot1"]),Fay$$jsToFay(["list",[["user","Attr",[]]]],obj["slot2"]),Fay$$jsToFay(["list",[["user","Elem",[]]]],obj["slot3"]));
+  }
+  if (obj["instance"] === "Attr") {
+    return new $_Main$Attr(Fay$$jsToFay(["string"],obj["slot1"]),Fay$$jsToFay(["string"],obj["slot2"]));
+  }
   if (obj["instance"] === "DeepWithDataAndEvents") {
     return new $_JQuery$DeepWithDataAndEvents();
   }
@@ -3998,6 +4104,9 @@ var Fay$$jsToFayUserDefined = function(type,obj){
 
 // Exports
 this.Main$main = Main$main;
+this.Main$CData = Main$CData;
+this.Main$Elem = Main$Elem;
+this.Main$Attr = Main$Attr;
 
 // Built-ins
 this._ = _;
