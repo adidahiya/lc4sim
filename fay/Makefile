@@ -1,7 +1,10 @@
 all: demo
 
+FAYC=~/.cabal/bin/fay
+FAYFLAGS=-p --Wall --flatten-apps
+
 demo:
-	~/.cabal/bin/fay -p demo.hs
+	${FAYC} ${FAYFLAGS} demo.hs
 
 clean:
 	rm *.js

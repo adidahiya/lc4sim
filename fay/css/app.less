@@ -1,0 +1,58 @@
+@import 'lib/bootstrap/bootstrap';
+@import 'custom_mixins';
+
+/* Variables */
+@bodyFont: 'Helvetica Neue';
+@copyFont: 'Helvetica Neue';
+@headingFont: 'Helvetica Neue';
+@displayFont: 'Helvetica Neue';
+
+/* Globals */
+* {
+  position: relative;
+  .box-sizing(border-box);
+}
+
+a {
+  color: @purple;
+  text-decoration: none;
+  .transition(color 0.1s linear);
+  &:hover { color: darken(@purple, 20); }
+}
+
+ul.no-style {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+hr {
+  border: none;
+  border-bottom: solid 1px #999;
+}
+
+.hidden { display: none; }
+.clear { clear: both; }
+
+/* Typography */
+
+body {
+  font-family: @bodyFont, 'Times New Roman', 'serif';
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: normal;
+  color: darken(@blue, 20);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  line-height: 1.3em;
+}
+
+.display {
+  font-family: @displayFont;
+}
+
+.tooltip {
+  font-family: Helvetica, Arial, sans-serif;
+}
