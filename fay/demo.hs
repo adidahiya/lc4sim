@@ -40,13 +40,28 @@ writeElem = writeRaw . buildElem
 printElem :: Fay JQuery -> Fay ()
 printElem f = f >>= getHtml >>= putStrLn
 
+safePrint :: String -> Fay ()
+safePrint ""  = return ()
+safePrint s   = putStrLn s
+
 
 ------------------------------------------------------------------------------
 -- Test working with DOM elements and writing to the console
-main :: Fay ()
-main = do
+test :: Event -> Fay ()
+test _ = do
   putStrLn "Entered main..."
-  writeElem $ Elem "h4" [] [CData "test"]
-  printElem $ select "body"
+  -- writeElem $ Elem "h4" [] [CData "test"]
+  -- printElem $ select "body"
+  left <- select ".left"
+  right <- select ".right"
+  rightContents <- getHtml right
+  putStrLn rightContents
+  setHtml rightContents left
   putStrLn "...finished main."
+
+theDocument :: Document
+theDocument = ffi "window.document"
+
+main :: Fay ()
+main = documentReady test theDocument
 

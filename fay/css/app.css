@@ -4492,3 +4492,10 @@ h6 {
 .tooltip {
   font-family: Helvetica, Arial, sans-serif;
 }
+/* Main Styles */
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}

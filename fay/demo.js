@@ -3945,8 +3945,34 @@ var Main$printElem = function($p1){
     return __(Fay$$bind,__(Fay$$bind,f,JQuery$getHtml),Language$Fay$Stdlib$putStrLn);
   });
 };
+var Main$safePrint = function($p1){
+  return new $(function(){
+    if (Fay$$equal($p1,Fay$$list(""))) {
+      return __(Fay$$$_return,Fay$$unit);
+    }
+    var s = $p1;
+    return __(Language$Fay$Stdlib$putStrLn,s);
+  });
+};
+var Main$test = function($p1){
+  return new $(function(){
+    return __(Fay$$then,__(Language$Fay$Stdlib$putStrLn,Fay$$list("Entered main...")),__(Fay$$bind,__(JQuery$select,Fay$$list(".left")),function($p1){
+      var left = $p1;
+      return __(Fay$$bind,__(JQuery$select,Fay$$list(".right")),function($p1){
+        var right = $p1;
+        return __(Fay$$bind,__(JQuery$getHtml,right),function($p1){
+          var rightContents = $p1;
+          return __(Fay$$then,__(Language$Fay$Stdlib$putStrLn,rightContents),__(Fay$$then,__(JQuery$setHtml,rightContents,left),__(Language$Fay$Stdlib$putStrLn,Fay$$list("...finished main."))));
+        });
+      });
+    }));
+  });
+};
+var Main$theDocument = new $(function(){
+  return Fay$$jsToFay(["user","Document",[]],window.document);
+});
 var Main$main = new $(function(){
-  return __(Fay$$then,__(Language$Fay$Stdlib$putStrLn,Fay$$list("Entered main...")),__(Fay$$then,__(Language$Fay$Stdlib$$36$,Main$writeElem,__(Main$Elem,Fay$$list("h4"),null,Fay$$list([__(Main$CData,Fay$$list("test"))]))),__(Fay$$then,__(Language$Fay$Stdlib$$36$,Main$printElem,__(JQuery$select,Fay$$list("body"))),__(Language$Fay$Stdlib$putStrLn,Fay$$list("...finished main.")))));
+  return __(JQuery$documentReady,Main$test,Main$theDocument);
 });
 var Fay$$fayToJsUserDefined = function(type,obj){
   var _obj = _(obj);
