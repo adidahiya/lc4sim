@@ -6,6 +6,7 @@ module Simulator where
 
 import Control.Monad.State
 import Data.Bits
+import Data.Set as Set
 import qualified Data.Map as M
 
 import LC4VM
@@ -80,11 +81,21 @@ evalBranch cc' bc' = case bc' of
                        ZP -> cc' == CC_Z || cc' == CC_P
                        NZP -> True
 
+continue :: State (VMState) ()
+continue = do
+  s <- get
+  --check of our current pc is a breakpoint
+  if (pc s) `Set.member` (brks s) then return ()
+    else
+      case M.lookup (pc s) (prog s) of
+        Nothing -> return ()
+        Just insn -> step insn >> continue
+
 nextStep :: State (VMState) ()
 nextStep = do
   s <- get
   case M.lookup (pc s) (prog s) of
-    Nothing -> error "PC at loaction with no valid instruction"
+    Nothing -> return ()
     Just insn -> step insn
 
 step :: Instruction -> State (VMState) ()
