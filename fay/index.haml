@@ -2,19 +2,74 @@
 %html{lang: 'en'}
   %head
     %title= "LC4 Simulator"
-    %meta{http: {equiv: 'Content-Type'}, content: 'text/html; charset=utf-8'}
-    %meta{http: {equiv: 'X-UA-Compatible'}, content: 'IE=edge,chrome=1'}
+    %meta{'http-equiv' => 'Content-Type', content: 'text/html; charset=utf-8'}
+    %meta{'http-equiv' => 'X-UA-Compatible', content: 'IE=edge,chrome=1'}
     %link{rel: 'stylesheet', href: 'css/app.css'}
     %link{rel: 'shortcut icon', href: 'assets/favicon.png'}
     %script{type: 'text/javascript', src: 'js/lib/jquery-1.8.3.js'}
     %script{type: 'text/javascript', src: 'demo.js'}
+    %script{type: 'text/javascript', src: 'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js', charset: 'utf-8'}
+    %script{src: 'https://api.filepicker.io/v1/filepicker.js'}
+    %script{src: 'aux.js'}
 
   %body
+    .header
+      .container
+        %h1 LC4 Simulator
     .container.main
-      %h1
-        Hello world
-      %p
-        This is a sample paragraph
-      .left
-      .right
-        This content gets copied from '.right' to '.left'
+      .row
+        .box.span6#console
+          %h3.title Console
+          %input#console-input{type: :text, name: "console-input"}
+          %pre#console-output
+            Assembly completed without errors or warnings
+            Register PC updated to value x0000
+        .box.span6#debugger
+          %h3.title
+            Debugger
+            #debugger-state Stopped
+          .button#continue
+            Continue
+          .button#next
+            Next
+          .button#step
+            Step
+          .button#finish
+            Finish
+          .button#stop
+            Stop
+          .button#reset
+            Reset
+        .box.span6#registers
+          %h3.title Registers
+          .register
+            .name R0
+            x0000
+          .register
+            .name R1
+            x0000
+          .register
+            .name R2
+            x0000
+          .register
+            .name R3
+            x0000
+          .register
+            .name R4
+            x0000
+          .register
+            .name R5
+            x0000
+          .register
+            .name R6
+            x0000
+          .register
+            .name R7
+            x0000
+        .box.span6#source
+          %h3.title
+            Source
+            .button#upload Upload
+          #editor
+            ADD R1 R2 R2
+            BRnzp LOOP

@@ -2,10 +2,16 @@
 @import 'custom_mixins';
 
 /* Variables */
-@bodyFont: 'Helvetica Neue';
-@copyFont: 'Helvetica Neue';
-@headingFont: 'Helvetica Neue';
-@displayFont: 'Helvetica Neue';
+@bodyFont: 'Monaco';
+@headingFont: 'Klavika-Medium';
+@displayFont: 'Klavika-Bold';
+@lightFont: 'Klavika-Light';
+
+@red: #be5f68;
+@deepRed: #be1e2d;
+@blue: #4890f9;
+@green: #4c9656;
+@grayBody: #e6e7e8;
 
 /* Globals */
 * {
@@ -41,10 +47,10 @@ body {
   font-size: 16px;
   line-height: 24px;
   font-weight: normal;
-  color: darken(@blue, 20);
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: @headingFont;
   font-weight: normal;
   line-height: 1.3em;
 }
@@ -58,10 +64,126 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Main Styles */
-.left {
-  float: left;
+.header {
+  background: @grayBody;
+  border-bottom: solid 2px @red;
+  margin-bottom: 20px;
+  h1 {
+    text-transform: uppercase;
+    text-align: center;
+    color: @deepRed;
+    font-family: @displayFont;
+  }
 }
 
-.right {
-  float: right;
+.box {
+  border: solid 1px lighten(@grayLight, 25);
+  margin-bottom: 20px;
+  .border-radius(2px);
+  .title {
+    width: 100%;
+    background: @grayBody;
+    padding: 8px 4px 2px 8px;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  &:nth-child(1) {
+    .title { border-bottom: solid 2px @red; }
+  }
+  &:nth-child(2) {
+    .title { border-bottom: solid 2px @gray; }
+  }
+  &:nth-child(3) {
+    .title { border-bottom: solid 2px @blue; }
+  }
+  &:nth-child(4) {
+    .title { border-bottom: solid 2px @green; }
+  }
 }
+
+#console-input {
+  width: 100%;
+  font-family: @bodyFont;
+  border: none;
+  height: 32px;
+  border-bottom: solid 1px @grayLight;
+  .border-radius(0);
+  padding: 8px;
+  margin: 0;
+  &:focus {
+    .box-shadow(none);
+  }
+}
+
+#console-output {
+  background: none;
+  border: none;
+  margin: 0;
+}
+
+.register {
+  float: left;
+  border: solid 1px darken(@grayBody, 10);
+  padding: 8px;
+  color: @black;
+  width: 25%;
+  .name {
+    float: left;
+    margin: -8px 8px -8px -8px;
+    padding: 8px;
+    background: @grayBody;
+    color: @gray;
+  }
+}
+
+#debugger-state {
+  float: right;
+  color: @white;
+  padding: 8px 8px 2px;
+  background: @deepRed;
+  margin: -8px -4px 0 0;
+  border-top-right-radius: 2px;
+}
+
+#debugger {
+  .button {
+    float: left;
+    background: @grayBody;
+    text-align: center;
+    font-family: @lightFont;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: @grayDark;
+    margin: 0;
+    width: 152px;
+    padding: 10px;
+    border: solid 1px darken(@grayBody, 10);
+    &:nth-child(3), &:nth-child(6) {
+      width: 154px;
+    }
+    &.selected, &:hover {
+      background: @grayDark;
+      border-color: @grayDark;
+      color: @white;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+#source {
+  min-height: 400px;
+  #upload {
+    float: right;
+    cursor: pointer;
+  }
+  #editor {
+    position: absolute;
+    top: 43px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
