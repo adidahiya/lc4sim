@@ -2906,7 +2906,7 @@ var JQuery$unload = function($p1){
 var JQuery$click = function($p1){
   return function($p2){
     return new $(function(){
-      return Fay$$jsToFay(["action",[["unknown"]]],Fay$$fayToJs(["user","JQuery",[]],$p2).click(Fay$$fayToJs(["function",[["user","Event",[]],["action",[["unknown"]]]]],$p1)));
+      return Fay$$jsToFay(["action",[["unknown"]]],Fay$$fayToJs(["user","JQuery",[]],$p2).on('click', Fay$$fayToJs(["function",[["user","Event",[]],["action",[["unknown"]]]]],$p1)));
     });
   };
 };
@@ -3945,34 +3945,31 @@ var Main$printElem = function($p1){
     return __(Fay$$bind,__(Fay$$bind,f,JQuery$getHtml),Language$Fay$Stdlib$putStrLn);
   });
 };
-var Main$safePrint = function($p1){
+var Main$app = function($p1){
   return new $(function(){
-    if (Fay$$equal($p1,Fay$$list(""))) {
-      return __(Fay$$$_return,Fay$$unit);
-    }
-    var s = $p1;
-    return __(Language$Fay$Stdlib$putStrLn,s);
+    return __(Fay$$then,__(Language$Fay$Stdlib$putStrLn,Fay$$list("Start js app...")),__(Fay$$then,Main$initFilepicker,__(Fay$$bind,__(JQuery$select,Fay$$list(".ace_gutter-cell")),function($p1){
+      var lineGutter = $p1;
+      return __(Fay$$then,__(JQuery$click,Main$onLineClick,lineGutter),__(Language$Fay$Stdlib$putStrLn,Fay$$list("...finished main.")));
+    })));
   });
 };
-var Main$test = function($p1){
+var Main$initEditor = new $(function(){
+  return Fay$$jsToFay(["action",[["unknown"]]],ace.edit('editor').setTheme('ace/theme/tomorrow'));
+});
+var Main$initFilepicker = new $(function(){
+  return Fay$$jsToFay(["action",[["unknown"]]],filepicker.setKey('AKi1o3YU9SXWoWiVnrB8nz'));
+});
+var Main$onLineClick = function($p1){
   return new $(function(){
-    return __(Fay$$then,__(Language$Fay$Stdlib$putStrLn,Fay$$list("Entered main...")),__(Fay$$bind,__(JQuery$select,Fay$$list(".left")),function($p1){
-      var left = $p1;
-      return __(Fay$$bind,__(JQuery$select,Fay$$list(".right")),function($p1){
-        var right = $p1;
-        return __(Fay$$bind,__(JQuery$getHtml,right),function($p1){
-          var rightContents = $p1;
-          return __(Fay$$then,__(Language$Fay$Stdlib$putStrLn,rightContents),__(Fay$$then,__(JQuery$setHtml,rightContents,left),__(Language$Fay$Stdlib$putStrLn,Fay$$list("...finished main."))));
-        });
-      });
-    }));
+    var e = $p1;
+    return __(Fay$$then,__(Language$Fay$Stdlib$putStrLn,Fay$$list("got line click")),__(Language$Fay$Stdlib$print,e));
   });
 };
 var Main$theDocument = new $(function(){
   return Fay$$jsToFay(["user","Document",[]],window.document);
 });
 var Main$main = new $(function(){
-  return __(JQuery$documentReady,Main$test,Main$theDocument);
+  return __(JQuery$documentReady,Main$app,Main$theDocument);
 });
 var Fay$$fayToJsUserDefined = function(type,obj){
   var _obj = _(obj);

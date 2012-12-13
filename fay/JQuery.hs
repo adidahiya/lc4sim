@@ -290,7 +290,7 @@ unload = ffi "jQuery(%2).unload(%1)"
 --
 
 click :: (Event -> Fay ()) -> JQuery -> Fay ()
-click = ffi "%2.click(%1)"
+click = ffi "%2.on('click', %1)"
 
 dblclick :: (Event -> Fay ()) -> JQuery -> Fay ()
 dblclick = ffi "%2.dblclick(%1)"

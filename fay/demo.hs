@@ -40,28 +40,39 @@ writeElem = writeRaw . buildElem
 printElem :: Fay JQuery -> Fay ()
 printElem f = f >>= getHtml >>= putStrLn
 
-safePrint :: String -> Fay ()
-safePrint ""  = return ()
-safePrint s   = putStrLn s
-
 
 ------------------------------------------------------------------------------
 -- Test working with DOM elements and writing to the console
-test :: Event -> Fay ()
-test _ = do
-  putStrLn "Entered main..."
+app :: Event -> Fay ()
+app _ = do
+  putStrLn "Start js app..."
+  -- initEditor
+  initFilepicker
   -- writeElem $ Elem "h4" [] [CData "test"]
   -- printElem $ select "body"
-  left <- select ".left"
-  right <- select ".right"
-  rightContents <- getHtml right
-  putStrLn rightContents
-  setHtml rightContents left
+  -- left <- select ".left"
+  -- right <- select ".right"
+  -- rightContents <- getHtml right
+  -- putStrLn rightContents
+  -- setHtml rightContents left
+  lineGutter <- select ".ace_gutter-cell"
+  click onLineClick lineGutter
   putStrLn "...finished main."
+
+initEditor :: Fay ()
+initEditor = ffi "ace.edit('editor').setTheme('ace/theme/tomorrow')"
+
+initFilepicker :: Fay ()
+initFilepicker = ffi "filepicker.setKey('AKi1o3YU9SXWoWiVnrB8nz')"
+
+onLineClick :: Event -> Fay ()
+onLineClick e = do
+  putStrLn "got line click"
+  print e
 
 theDocument :: Document
 theDocument = ffi "window.document"
 
 main :: Fay ()
-main = documentReady test theDocument
+main = documentReady app theDocument
 
