@@ -1,0 +1,33 @@
+/* Custom Mixins */
+.transition-double(@property1, @property2) {
+  -webkit-transition-property: @property1, @property2;
+  -webkit-transition-duration: 0.15s, 0.15s;
+  -webkit-transition-timing-function: linear, linear;
+  -moz-transition-property: @property1, @property2;
+  -moz-transition-duration: 0.15s, 0.15s;
+  -moz-transition-timing-function: linear, linear;
+  transition-property: @property1, @property2;
+  transition-duration: 0.15s, 0.15s;
+  transition-timing-function: linear, linear;
+}
+
+.overflow-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-text-overflow: ellipsis;
+     -moz-text-overflow: ellipsis;
+          text-overflow: ellipsis;
+}
+
+.background-size(@size) {
+  -webkit-background-size: @size;
+     -moz-background-size: @size;
+       -o-background-size: @size;
+          background-size: @size;
+}
+
+.text-shadow(@shadow) {
+  -webkit-text-shadow: @shadow;
+     -moz-text-shadow: @shadow;
+          text-shadow: @shadow;
+}

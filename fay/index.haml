@@ -20,26 +20,41 @@
       .row
         .box.span6#console
           %h3.title Console
-          %input#console-input{type: :text, name: "console-input"}
-          %pre#console-output
-            Assembly completed without errors or warnings
-            Register PC updated to value x0000
+          %input.console-input{type: :text, name: "console-input"}
+          %pre.console-output
+            :preserve
+              Assembly completed without errors or warnings
+              Register PC updated to value x0000
+
         .box.span6#debugger
           %h3.title
             Debugger
-            #debugger-state Stopped
+            .debugger-state Stopped
           .button#continue
             Continue
           .button#next
             Next
           .button#step
             Step
-          .button#finish
-            Finish
           .button#stop
             Stop
+          .button#finish
+            Finish
           .button#reset
             Reset
+
+      .row
+        .box.span6#source
+          %h3.title
+            Source
+            .button.upload
+              Load file
+              %img{src: 'assets/upload.png'}
+          #editor.placeholder
+            :preserve
+              Load an assembly file
+              to run the simulator
+
         .box.span6#registers
           %h3.title Registers
           .register
@@ -66,10 +81,62 @@
           .register
             .name R7
             x0000
-        .box.span6#source
-          %h3.title
-            Source
-            .button#upload Upload
-          #editor
-            ADD R1 R2 R2
-            BRnzp LOOP
+
+        .box.span3#memory
+          %h3.title Memory
+          .table
+            .entry
+              .address x0000
+              .value   NOP
+            .entry
+              .address x0001
+              .value   NOP
+            .entry
+              .address x0002
+              .value   NOP
+            .entry
+              .address x0003
+              .value   NOP
+            .entry
+              .address x0004
+              .value   NOP
+            .entry
+              .address x0005
+              .value   NOP
+            .entry
+              .address x0006
+              .value   NOP
+            .entry
+              .address x0007
+              .value   NOP
+            .entry
+              .address x0008
+              .value   NOP
+            .entry
+              .address x0009
+              .value   NOP
+            .entry
+              .address x000a
+              .value   NOP
+            .entry
+              .address x000b
+              .value   NOP
+            .entry
+              .address x000c
+              .value   NOP
+            .entry
+              .address x000d
+              .value   NOP
+            .entry
+              .address x000e
+              .value   NOP
+            .entry
+              .address x000f
+              .value   NOP
+
+        .box.span3#video
+          %h3.title Video
+
+        .box.span3#ascii
+          %h3.title ASCII
+

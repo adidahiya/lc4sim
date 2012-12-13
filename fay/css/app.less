@@ -63,12 +63,23 @@ h1, h2, h3, h4, h5, h6 {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-/* Main Styles */
+// ===========================================================================
+// Shared Styles
+
+.subtle-shadow() {
+  .box-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
+}
+
+// ===========================================================================
+// Main Styles
+
 .header {
   background: @grayBody;
   border-bottom: solid 2px @red;
   margin-bottom: 20px;
+
   h1 {
+    .hidden;
     text-transform: uppercase;
     text-align: center;
     color: @deepRed;
@@ -80,73 +91,81 @@ h1, h2, h3, h4, h5, h6 {
   border: solid 1px lighten(@grayLight, 25);
   margin-bottom: 20px;
   .border-radius(2px);
+  .subtle-shadow();
+
   .title {
     width: 100%;
     background: @grayBody;
     padding: 8px 4px 2px 8px;
     margin: 0;
+    border-bottom: solid 3px @deepRed;
     text-transform: uppercase;
-  }
-  &:nth-child(1) {
-    .title { border-bottom: solid 2px @red; }
-  }
-  &:nth-child(2) {
-    .title { border-bottom: solid 2px @gray; }
-  }
-  &:nth-child(3) {
-    .title { border-bottom: solid 2px @blue; }
-  }
-  &:nth-child(4) {
-    .title { border-bottom: solid 2px @green; }
+    color: lighten(@grayDark, 10);
+    .text-shadow(0 1px 1px rgba(255, 255, 255, 1));
   }
 }
 
-#console-input {
-  width: 100%;
-  font-family: @bodyFont;
-  border: none;
-  height: 32px;
-  border-bottom: solid 1px @grayLight;
-  .border-radius(0);
-  padding: 8px;
-  margin: 0;
-  &:focus {
-    .box-shadow(none);
+#console {
+  .console-input {
+    width: 100%;
+    font-family: @bodyFont;
+    border: none;
+    height: 32px;
+    border-bottom: solid 1px @grayLight;
+    .border-radius(0);
+    padding: 8px;
+    margin: 0;
+    &:focus {
+      .box-shadow(none);
+    }
+  }
+
+  .console-output {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 6px 6px 0;
+    font-size: 12px;
+    line-height: 15px;
+    height: 57px;
   }
 }
 
-#console-output {
-  background: none;
-  border: none;
-  margin: 0;
+#registers {
+  .title { border-bottom: solid 2px @green; }
 }
 
 .register {
   float: left;
-  border: solid 1px darken(@grayBody, 10);
+  border-top: solid 1px lighten(@grayLight, 20);
   padding: 8px;
   color: @black;
   width: 25%;
+
   .name {
     float: left;
     margin: -8px 8px -8px -8px;
     padding: 8px;
-    background: @grayBody;
     color: @gray;
+    background: @grayBody;
+    border-right: solid 1px lighten(@grayLight, 20);
   }
 }
 
-#debugger-state {
-  float: right;
-  color: @white;
-  padding: 8px 8px 2px;
-  background: @deepRed;
-  margin: -8px -4px 0 0;
-  border-top-right-radius: 2px;
-}
-
 #debugger {
-  .button {
+  .title { border-bottom: solid 2px @gray; }
+
+  .debugger-state {
+    float: right;
+    color: @white;
+    padding: 8px 8px 2px;
+    background: @deepRed;
+    margin: -8px -4px 0 0;
+    border-top-right-radius: 2px;
+    .text-shadow(none);
+  }
+
+ .button {
     float: left;
     background: @grayBody;
     text-align: center;
@@ -157,14 +176,25 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
     width: 152px;
     padding: 10px;
-    border: solid 1px darken(@grayBody, 10);
-    &:nth-child(3), &:nth-child(6) {
+    border-top: solid 1px darken(@grayBody, 10);
+    border-right: solid 1px darken(@grayBody, 10);
+    &:nth-child(3n + 1) {
       width: 154px;
+      border-right: none;
     }
     &.selected, &:hover {
-      background: @grayDark;
-      border-color: @grayDark;
+      background: @gray;
+      border-color: @gray;
       color: @white;
+      .text-shadow(0 1px 2px @black);
+      &#stop {
+        background: darken(@deepRed, 10);
+        border-color: darken(@deepRed, 10);
+      }
+      &#continue {
+        background: darken(@green, 10);
+        border-color: darken(@green, 10);
+      }
     }
     &:hover {
       cursor: pointer;
@@ -173,17 +203,87 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #source {
-  min-height: 400px;
-  #upload {
+  min-height: 300px;
+  max-height: 500px;
+
+  .title { border-bottom: solid 2px @blue; }
+
+  .upload {
     float: right;
     cursor: pointer;
+    font-family: @lightFont;
+    font-size: 16px;
+    line-height: 24px;
+    text-transform: none;
+    .text-shadow(none);
+    .border-radius(3px);
+    border: solid 1px transparent;
+    margin-top: -3px;
+    padding: 4px 8px 2px;
+
+    img {
+      height: 14px;
+      margin: -2px 2px 0 5px;
+      .opacity(50);
+    }
+
+    &:hover {
+      color: @black;
+      #gradient .vertical(@grayBody, lighten(@grayLight, 30));
+      border-color: lighten(@grayLight, 10);
+      .subtle-shadow();
+      img { 
+        .opacity(100); 
+      }
+    }
   }
+
   #editor {
     position: absolute;
     top: 43px;
     right: 0;
     bottom: 0;
     left: 0;
+
+    &.placeholder {
+      color: @gray;
+      background: lighten(@grayBody, 5);
+      .text-shadow(0 1px 1px @white);
+      font-family: @lightFont;
+      font-size: 20px;
+      line-height: 30px;
+      text-align: center;
+      padding-top: 40px;
+    }
   }
 }
 
+#memory {
+  .table {
+    font-size: 12px;
+    height: 300px;
+    overflow-y: auto;
+    margin: 0;
+
+    .entry {
+      width: 100%;
+      float: left;
+      border-bottom: solid 2px #ddd;
+
+      .address {
+        float: left;
+        width: 28%;
+        border-right: solid 2px #ddd;
+        padding: 2px 8px;
+        text-align: center;
+      }
+
+      .value {
+        float: right;
+        width: 70%;
+        padding: 2px 8px;
+        // text-align: right;
+      }
+    }
+  }
+}

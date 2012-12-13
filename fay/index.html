@@ -22,14 +22,13 @@
       <div class='row'>
         <div class='box span6' id='console'>
           <h3 class='title'>Console</h3>
-          <input id='console-input' name='console-input' type='text'>
-          <pre id='console-output'>Assembly completed without errors or warnings
-          Register PC updated to value x0000</pre>
+          <input class='console-input' name='console-input' type='text'>
+          <pre class='console-output'>Assembly completed without errors or warnings&#x000A;Register PC updated to value x0000&#x000A;</pre>
         </div>
         <div class='box span6' id='debugger'>
           <h3 class='title'>
             Debugger
-            <div id='debugger-state'>Stopped</div>
+            <div class='debugger-state'>Stopped</div>
           </h3>
           <div class='button' id='continue'>
             Continue
@@ -40,14 +39,28 @@
           <div class='button' id='step'>
             Step
           </div>
-          <div class='button' id='finish'>
-            Finish
-          </div>
           <div class='button' id='stop'>
             Stop
           </div>
+          <div class='button' id='finish'>
+            Finish
+          </div>
           <div class='button' id='reset'>
             Reset
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='box span6' id='source'>
+          <h3 class='title'>
+            Source
+            <div class='button upload'>
+              Load file
+              <img src='assets/upload.png'>
+            </div>
+          </h3>
+          <div class='placeholder' id='editor'>
+            Load an assembly file&#x000A;to run the simulator&#x000A;
           </div>
         </div>
         <div class='box span6' id='registers'>
@@ -85,15 +98,80 @@
             x0000
           </div>
         </div>
-        <div class='box span6' id='source'>
-          <h3 class='title'>
-            Source
-            <div class='button' id='upload'>Upload</div>
-          </h3>
-          <div id='editor'>
-            ADD R1 R2 R2
-            BRnzp LOOP
+        <div class='box span3' id='memory'>
+          <h3 class='title'>Memory</h3>
+          <div class='table'>
+            <div class='entry'>
+              <div class='address'>x0000</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x0001</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x0002</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x0003</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x0004</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x0005</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x0006</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x0007</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x0008</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x0009</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x000a</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x000b</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x000c</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x000d</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x000e</div>
+              <div class='value'>NOP</div>
+            </div>
+            <div class='entry'>
+              <div class='address'>x000f</div>
+              <div class='value'>NOP</div>
+            </div>
           </div>
+        </div>
+        <div class='box span3' id='video'>
+          <h3 class='title'>Video</h3>
+        </div>
+        <div class='box span3' id='ascii'>
+          <h3 class='title'>ASCII</h3>
         </div>
       </div>
     </div>
