@@ -10,5 +10,5 @@ language used at courses at the University of Pennsylvania.
 - Install [fay](http://fay-lang.org/)
 - Install [fay-jquery](https://github.com/faylang/fay-jquery)
 - Compile the app with `make`
-- Open up `Main.html` in a browser and follow the instructions to load an
+- Open up `index.html` in a browser and follow the instructions to load an
   assembly file into the simulator
