@@ -18,18 +18,19 @@
         <h1>LC4 Simulator</h1>
       </div>
     </div>
-    <div class='container main'>
+    <div class='main container-fluid'>
       <div class='row'>
-        <div class='box span6' id='console'>
-          <h3 class='title'>Console</h3>
+        <div class='box span8' id='console'>
+          <h4 class='title'>PennSim Console</h4>
           <input class='console-input' name='console-input' type='text'>
+          <span class='prompt'>&gt;</span>
           <pre class='console-output'>Assembly completed without errors or warnings&#x000A;Register PC updated to value x0000&#x000A;</pre>
         </div>
         <div class='box span6' id='debugger'>
-          <h3 class='title'>
+          <h4 class='title'>
             Debugger
             <div class='debugger-state'>Stopped</div>
-          </h3>
+          </h4>
           <div class='button' id='continue'>
             Continue
           </div>
@@ -51,20 +52,20 @@
         </div>
       </div>
       <div class='row'>
-        <div class='box span6' id='source'>
-          <h3 class='title'>
+        <div class='box span8' id='source'>
+          <h4 class='title'>
             Source
             <div class='button upload'>
               Load file
               <img src='assets/upload.png'>
             </div>
-          </h3>
+          </h4>
           <div class='placeholder' id='editor'>
             Load an assembly file&#x000A;to run the simulator&#x000A;
           </div>
         </div>
         <div class='box span6' id='registers'>
-          <h3 class='title'>Registers</h3>
+          <h4 class='title'>Registers</h4>
           <div class='register'>
             <div class='name'>R0</div>
             x0000
@@ -99,7 +100,7 @@
           </div>
         </div>
         <div class='box span3' id='memory'>
-          <h3 class='title'>Memory</h3>
+          <h4 class='title'>Memory</h4>
           <div class='table'>
             <div class='entry'>
               <div class='address'>x0000</div>
@@ -168,10 +169,10 @@
           </div>
         </div>
         <div class='box span3' id='video'>
-          <h3 class='title'>Video</h3>
+          <h4 class='title'>Video</h4>
         </div>
         <div class='box span3' id='ascii'>
-          <h3 class='title'>ASCII</h3>
+          <h4 class='title'>ASCII</h4>
         </div>
       </div>
     </div>

@@ -16,18 +16,19 @@
     .header
       .container
         %h1 LC4 Simulator
-    .container.main
+    .main.container-fluid
       .row
-        .box.span6#console
-          %h3.title Console
+        .box.span8#console
+          %h4.title PennSim Console
           %input.console-input{type: :text, name: "console-input"}
+          %span.prompt &gt;
           %pre.console-output
             :preserve
               Assembly completed without errors or warnings
               Register PC updated to value x0000
 
         .box.span6#debugger
-          %h3.title
+          %h4.title
             Debugger
             .debugger-state Stopped
           .button#continue
@@ -44,8 +45,8 @@
             Reset
 
       .row
-        .box.span6#source
-          %h3.title
+        .box.span8#source
+          %h4.title
             Source
             .button.upload
               Load file
@@ -56,7 +57,7 @@
               to run the simulator
 
         .box.span6#registers
-          %h3.title Registers
+          %h4.title Registers
           .register
             .name R0
             x0000
@@ -83,7 +84,7 @@
             x0000
 
         .box.span3#memory
-          %h3.title Memory
+          %h4.title Memory
           .table
             .entry
               .address x0000
@@ -135,8 +136,8 @@
               .value   NOP
 
         .box.span3#video
-          %h3.title Video
+          %h4.title Video
 
         .box.span3#ascii
-          %h3.title ASCII
+          %h4.title ASCII
 

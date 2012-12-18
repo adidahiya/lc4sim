@@ -4483,6 +4483,7 @@ body {
   font-size: 16px;
   line-height: 24px;
   font-weight: normal;
+  background: #eee;
 }
 h1,
 h2,
@@ -4502,7 +4503,7 @@ h6 {
 }
 .header {
   background: #e6e7e8;
-  border-bottom: solid 2px #be5f68;
+  border-bottom: solid 3px #be5f68;
   margin-bottom: 20px;
 }
 .header h1 {
@@ -4512,8 +4513,11 @@ h6 {
   color: #be1e2d;
   font-family: 'Klavika-Bold';
 }
+.main {
+  width: 1140px;
+}
 .box {
-  border: solid 1px #d9d9d9;
+  border: solid 1px #aaa;
   margin-bottom: 20px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -4527,12 +4531,16 @@ h6 {
   background: #e6e7e8;
   padding: 8px 4px 2px 8px;
   margin: 0;
-  border-bottom: solid 3px #be1e2d;
+  border-bottom: solid 3px #555555;
   text-transform: uppercase;
   color: #4d4d4d;
   -webkit-text-shadow: 0 1px 1px #ffffff;
   -moz-text-shadow: 0 1px 1px #ffffff;
   text-shadow: 0 1px 1px #ffffff;
+}
+#console .prompt {
+  position: absolute;
+  margin: -30px 0 0 5px;
 }
 #console .console-input {
   width: 100%;
@@ -4543,7 +4551,7 @@ h6 {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
-  padding: 8px;
+  padding: 8px 8px 8px 20px;
   margin: 0;
 }
 #console .console-input:focus {
@@ -4552,7 +4560,7 @@ h6 {
   box-shadow: none;
 }
 #console .console-output {
-  background: none;
+  background: #ffffff;
   border: none;
   margin: 0;
   padding: 6px 6px 0;
@@ -4560,26 +4568,8 @@ h6 {
   line-height: 15px;
   height: 57px;
 }
-#registers .title {
-  border-bottom: solid 2px #4c9656;
-}
-.register {
-  float: left;
-  border-top: solid 1px #cccccc;
-  padding: 8px;
-  color: #000000;
-  width: 25%;
-}
-.register .name {
-  float: left;
-  margin: -8px 8px -8px -8px;
-  padding: 8px;
-  color: #555555;
-  background: #e6e7e8;
-  border-right: solid 1px #cccccc;
-}
 #debugger .title {
-  border-bottom: solid 2px #555555;
+  border-bottom: solid 3px #555555;
 }
 #debugger .debugger-state {
   float: right;
@@ -4594,10 +4584,10 @@ h6 {
 }
 #debugger .button {
   float: left;
-  background: #e6e7e8;
-  text-align: center;
+  background: #ffffff;
+  text-align: left;
   font-family: 'Klavika-Light';
-  font-size: 20px;
+  font-size: 18px;
   text-transform: uppercase;
   color: #333333;
   margin: 0;
@@ -4610,6 +4600,65 @@ h6 {
   width: 154px;
   border-right: none;
 }
+#debugger .button:after {
+  float: left;
+  margin: 1px 5px 0 0;
+  width: 20px;
+  height: 20px;
+}
+#debugger .button#continue:after {
+  content: url('../assets/continue.png');
+}
+#debugger .button#continue.selected,
+#debugger .button#continue:hover {
+  background: #3b7443;
+  border-color: #3b7443;
+}
+#debugger .button#continue.selected:after,
+#debugger .button#continue:hover:after {
+  content: url('../assets/continue-white.png');
+}
+#debugger .button#next:after {
+  content: url('../assets/next.png');
+}
+#debugger .button#next.selected:after,
+#debugger .button#next:hover:after {
+  content: url('../assets/next-white.png');
+}
+#debugger .button#step:after {
+  content: url('../assets/step.png');
+}
+#debugger .button#step.selected:after,
+#debugger .button#step:hover:after {
+  content: url('../assets/step-white.png');
+}
+#debugger .button#stop:after {
+  content: url('../assets/stop.png');
+  margin-top: 0;
+}
+#debugger .button#stop.selected,
+#debugger .button#stop:hover {
+  background: #921723;
+  border-color: #921723;
+}
+#debugger .button#stop.selected:after,
+#debugger .button#stop:hover:after {
+  content: url('../assets/stop-white.png');
+}
+#debugger .button#finish:after {
+  content: url('../assets/finish.png');
+}
+#debugger .button#finish.selected:after,
+#debugger .button#finish:hover:after {
+  content: url('../assets/finish-white.png');
+}
+#debugger .button#reset:after {
+  content: url('../assets/restart.png');
+}
+#debugger .button#reset.selected:after,
+#debugger .button#reset:hover:after {
+  content: url('../assets/restart-white.png');
+}
 #debugger .button.selected,
 #debugger .button:hover {
   background: #555555;
@@ -4619,16 +4668,6 @@ h6 {
   -moz-text-shadow: 0 1px 2px #000000;
   text-shadow: 0 1px 2px #000000;
 }
-#debugger .button.selected#stop,
-#debugger .button:hover#stop {
-  background: #921723;
-  border-color: #921723;
-}
-#debugger .button.selected#continue,
-#debugger .button:hover#continue {
-  background: #3b7443;
-  border-color: #3b7443;
-}
 #debugger .button:hover {
   cursor: pointer;
 }
@@ -4637,7 +4676,7 @@ h6 {
   max-height: 500px;
 }
 #source .title {
-  border-bottom: solid 2px #4890f9;
+  border-bottom: solid 3px #4890f9;
 }
 #source .upload {
   float: right;
@@ -4653,8 +4692,8 @@ h6 {
   -moz-border-radius: 3px;
   border-radius: 3px;
   border: solid 1px transparent;
-  margin-top: -3px;
-  padding: 4px 8px 2px;
+  margin-top: -5px;
+  padding: 2px 5px 0;
 }
 #source .upload img {
   height: 14px;
@@ -4700,11 +4739,34 @@ h6 {
   text-align: center;
   padding-top: 40px;
 }
+#registers .title {
+  border-bottom: solid 3px #4c9656;
+}
+.register {
+  float: left;
+  border-top: solid 1px #cccccc;
+  background: #ffffff;
+  padding: 8px;
+  color: #000000;
+  width: 25%;
+}
+.register .name {
+  float: left;
+  margin: -8px 8px -8px -8px;
+  padding: 8px;
+  color: #555555;
+  background: #e6e7e8;
+  border-right: solid 1px #cccccc;
+}
+#memory .title {
+  border-bottom: solid 3px #be5f68;
+}
 #memory .table {
   font-size: 12px;
   height: 300px;
   overflow-y: auto;
   margin: 0;
+  background: #ffffff;
 }
 #memory .table .entry {
   width: 100%;
@@ -4722,4 +4784,10 @@ h6 {
   float: right;
   width: 70%;
   padding: 2px 8px;
+}
+#video .title {
+  border-bottom: solid 3px #4890f9;
+}
+#ascii .title {
+  border-bottom: solid 3px #4c9656;
 }

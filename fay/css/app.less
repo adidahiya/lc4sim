@@ -47,6 +47,7 @@ body {
   font-size: 16px;
   line-height: 24px;
   font-weight: normal;
+  background: #eee;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -75,7 +76,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .header {
   background: @grayBody;
-  border-bottom: solid 2px @red;
+  border-bottom: solid 3px @red;
   margin-bottom: 20px;
 
   h1 {
@@ -87,8 +88,12 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.main {
+  width: 1140px;
+}
+
 .box {
-  border: solid 1px lighten(@grayLight, 25);
+  border: solid 1px #aaa;
   margin-bottom: 20px;
   .border-radius(2px);
   .subtle-shadow();
@@ -98,7 +103,7 @@ h1, h2, h3, h4, h5, h6 {
     background: @grayBody;
     padding: 8px 4px 2px 8px;
     margin: 0;
-    border-bottom: solid 3px @deepRed;
+    border-bottom: solid 3px @gray;
     text-transform: uppercase;
     color: lighten(@grayDark, 10);
     .text-shadow(0 1px 1px rgba(255, 255, 255, 1));
@@ -106,6 +111,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #console {
+  .prompt {
+    position: absolute;
+    margin: -30px 0 0 5px;
+  }
+
   .console-input {
     width: 100%;
     font-family: @bodyFont;
@@ -113,7 +123,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 32px;
     border-bottom: solid 1px @grayLight;
     .border-radius(0);
-    padding: 8px;
+    padding: 8px 8px 8px 20px;
     margin: 0;
     &:focus {
       .box-shadow(none);
@@ -121,7 +131,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .console-output {
-    background: none;
+    background: @white;
     border: none;
     margin: 0;
     padding: 6px 6px 0;
@@ -131,29 +141,8 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-#registers {
-  .title { border-bottom: solid 2px @green; }
-}
-
-.register {
-  float: left;
-  border-top: solid 1px lighten(@grayLight, 20);
-  padding: 8px;
-  color: @black;
-  width: 25%;
-
-  .name {
-    float: left;
-    margin: -8px 8px -8px -8px;
-    padding: 8px;
-    color: @gray;
-    background: @grayBody;
-    border-right: solid 1px lighten(@grayLight, 20);
-  }
-}
-
 #debugger {
-  .title { border-bottom: solid 2px @gray; }
+  .title { border-bottom: solid 3px @gray; }
 
   .debugger-state {
     float: right;
@@ -167,10 +156,10 @@ h1, h2, h3, h4, h5, h6 {
 
  .button {
     float: left;
-    background: @grayBody;
-    text-align: center;
+    background: @white;
+    text-align: left;
     font-family: @lightFont;
-    font-size: 20px;
+    font-size: 18px;
     text-transform: uppercase;
     color: @grayDark;
     margin: 0;
@@ -178,24 +167,79 @@ h1, h2, h3, h4, h5, h6 {
     padding: 10px;
     border-top: solid 1px darken(@grayBody, 10);
     border-right: solid 1px darken(@grayBody, 10);
+
     &:nth-child(3n + 1) {
       width: 154px;
       border-right: none;
     }
+
+    &:after {
+      float: left;
+      margin: 1px 5px 0 0;
+      width: 20px;
+      height: 20px;
+    }
+
+    &#continue {
+      &:after {
+        content: url('../assets/continue.png');
+      }
+      &.selected, &:hover {
+        background: darken(@green, 10);
+        border-color: darken(@green, 10);
+        &:after {
+          content: url('../assets/continue-white.png');
+        }
+      }
+    }
+
+    &#next {
+      &:after { content: url('../assets/next.png'); }
+      &.selected, &:hover {
+        &:after { content: url('../assets/next-white.png'); }
+      }
+    }
+
+    &#step {
+      &:after { content: url('../assets/step.png'); }
+      &.selected, &:hover {
+        &:after { content: url('../assets/step-white.png'); }
+      }
+    }
+
+    &#stop {
+      &:after {
+        content: url('../assets/stop.png');
+        margin-top: 0;
+      }
+      &.selected, &:hover {
+        background: darken(@deepRed, 10);
+        border-color: darken(@deepRed, 10);
+        &:after { content: url('../assets/stop-white.png'); }
+      }
+    }
+
+    &#finish {
+      &:after { content: url('../assets/finish.png'); }
+      &.selected, &:hover {
+        &:after { content: url('../assets/finish-white.png'); }
+      }
+    }
+
+    &#reset {
+      &:after { content: url('../assets/restart.png'); }
+      &.selected, &:hover {
+        &:after { content: url('../assets/restart-white.png'); }
+      }
+    }
+
     &.selected, &:hover {
       background: @gray;
       border-color: @gray;
       color: @white;
       .text-shadow(0 1px 2px @black);
-      &#stop {
-        background: darken(@deepRed, 10);
-        border-color: darken(@deepRed, 10);
-      }
-      &#continue {
-        background: darken(@green, 10);
-        border-color: darken(@green, 10);
-      }
     }
+
     &:hover {
       cursor: pointer;
     }
@@ -206,7 +250,7 @@ h1, h2, h3, h4, h5, h6 {
   min-height: 300px;
   max-height: 500px;
 
-  .title { border-bottom: solid 2px @blue; }
+  .title { border-bottom: solid 3px @blue; }
 
   .upload {
     float: right;
@@ -218,8 +262,8 @@ h1, h2, h3, h4, h5, h6 {
     .text-shadow(none);
     .border-radius(3px);
     border: solid 1px transparent;
-    margin-top: -3px;
-    padding: 4px 8px 2px;
+    margin-top: -5px;
+    padding: 2px 5px 0;
 
     img {
       height: 14px;
@@ -258,12 +302,37 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+#registers {
+  .title { border-bottom: solid 3px @green; }
+}
+
+.register {
+  float: left;
+  border-top: solid 1px lighten(@grayLight, 20);
+  background: @white;
+  padding: 8px;
+  color: @black;
+  width: 25%;
+
+  .name {
+    float: left;
+    margin: -8px 8px -8px -8px;
+    padding: 8px;
+    color: @gray;
+    background: @grayBody;
+    border-right: solid 1px lighten(@grayLight, 20);
+  }
+}
+
 #memory {
+  .title { border-bottom: solid 3px @red; }
+
   .table {
     font-size: 12px;
     height: 300px;
     overflow-y: auto;
     margin: 0;
+    background: @white;
 
     .entry {
       width: 100%;
@@ -286,4 +355,13 @@ h1, h2, h3, h4, h5, h6 {
       }
     }
   }
+}
+
+
+#video {
+  .title { border-bottom: solid 3px @blue; }
+}
+
+#ascii {
+  .title { border-bottom: solid 3px @green; }
 }
