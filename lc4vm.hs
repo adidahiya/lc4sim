@@ -63,7 +63,8 @@ lblValue :: Label -> Labels -> Int
 lblValue lbl labels =
   fromMaybe (error "missing label") $ M.lookup lbl labels
 
-data VMState = VM { prog :: Program,
+data VMState = VM { start :: Maybe VMState,
+                    prog :: Program,
                     lbls :: Labels,
                     regFile :: RegisterFile,
                     memory :: Memory,

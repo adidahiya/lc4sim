@@ -42,13 +42,14 @@ helpText =
   \c  | continue -- Continue to breakpoint/end of program. \n \
   \n  | next     -- Step to the next instruction.\n \
   \r  | reg      -- Show the register file. \n \
-  \p  | prog     -- Show the program file. \n \
+  \pc |          -- Show the program file. \n \
   \m  | mem      -- Show current memory. \n \
-  \l  | lbl      -- Show labels. \n \
+  \l  | lbl      -- Show labels. \n \ 
   \b  |          -- Set a line breakpoint. \n \
   \bl |          -- Set a label breakpoint. \n \
-  \bp |          -- Show current breakpoints.  \n"
-
+  \bp |          -- Show current breakpoints. \n \
+  \p  |          -- Show program. \n \
+  \rt |          -- Reset. \n "
 
 -- | Processes a command from main and calls the appropriate
 --   functions to deal with them.
@@ -60,11 +61,13 @@ processCmd s cmd
   | cmd `elem` ["c", "continue"] = continueInstruction s
   | cmd `elem` ["n", "next"] = nextInstruction s
   | cmd `elem` ["r", "reg", "registers"] = showRegisters s >> return s
-  | cmd `elem` ["p", "prog"] = showProgram s >> return s
+  | cmd `elem` ["pc"] = showCurrInsn s >> return s
   | cmd `elem` ["m", "mem", "memory"] = showMemory s >> return s
   | cmd `elem` ["l", "lbl", "labels"] = showLabels s >> return s
   | cmd `elem` ["bp"] = showBreakpoints s >> return s
   | cmd `elem` ["bl"] = setBreakLabel s
+  | cmd `elem` ["p"] = showProgram s >> return s
+  | cmd `elem` ["rs"] = resetVM s
   | otherwise =
       putStrLn "Command not recognized. Type help or h for help." >> return s
 
@@ -83,13 +86,18 @@ showMemory s = do
   putStrLn "Memory"
   putStrLn . unlines . (fmap show) . M.toList . memory $ s
 
-showProgram :: VMState -> IO ()
-showProgram s = do
+showCurrInsn :: VMState -> IO ()
+showCurrInsn s = do
   putStrLn "Program Counter"
-  putStrLn . show . pc $ s
+  putStr . show . pc $ s 
   putStrLn (case M.lookup (pc s) (LC4VM.prog s) of
     Nothing   -> "No valid insn"
     Just insn -> display insn)
+
+showProgram :: VMState -> IO ()
+showProgram s = do
+  putStrLn "Program"
+  putStrLn . unlines $ fmap show $ M.elems $ LC4VM.prog s
 
 showRegisters :: VMState -> IO ()
 showRegisters s = do
@@ -110,6 +118,10 @@ setBreakLine s = do
   hFlush stdout
   bkpt <- getLine
   addBreakLine s bkpt
+
+resetVM :: VMState -> IO VMState
+resetVM s = return $ execState reset s
+
 
 setBreakLabel :: VMState -> IO VMState
 setBreakLabel s = do

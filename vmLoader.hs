@@ -40,7 +40,8 @@ load ls' = convert $ execState (loadAll ls') initial where
 
   convert :: LoaderState -> VMState
   convert (L _ _a p lbls' brks' mem') = 
-    VM p lbls' blankRegFile mem' brks' 0 CC_Z False
+    let start' = VM Nothing p lbls' blankRegFile mem' brks' 0 CC_Z False in
+    start' { start = Just start' }
 
   loadAll :: [Line] -> State LoaderState ()
   loadAll = foldl (\ls l -> ls >> (loadLine l)) (return ())

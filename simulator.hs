@@ -98,6 +98,14 @@ nextStep = do
     Nothing -> return ()
     Just insn -> step insn
 
+-- restores the current state of the simulator to the default
+reset :: State (VMState) ()
+reset = do
+  s <- get
+  case start s of
+    Nothing -> error "Start state should never be nothing."
+    Just st -> put $ st
+
 step :: Instruction -> State (VMState) ()
 step NOP = incrPC
 
