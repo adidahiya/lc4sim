@@ -13,7 +13,7 @@ module Parser ( Parser
               , satisfyG
               , doParseG ) where
 
-import Control.Monad
+import Control.Monad (Monad)
 
 newtype Parser a = P (String -> [(a, String)])
 
