@@ -49,7 +49,8 @@ helpText =
   \bl |          -- Set a label breakpoint. \n \
   \bp |          -- Show current breakpoints. \n \
   \p  |          -- Show program. \n \
-  \rt |          -- Reset. \n "
+  \rs |          -- Reset. \n \
+  \sc |          -- Print Script. \n"
 
 -- | Processes a command from main and calls the appropriate
 --   functions to deal with them.
@@ -67,7 +68,8 @@ processCmd s cmd
   | cmd `elem` ["bp"] = showBreakpoints s >> return s
   | cmd `elem` ["bl"] = setBreakLabel s
   | cmd `elem` ["p"] = showProgram s >> return s
-  | cmd `elem` ["rs"] = resetVM s
+  | cmd `elem` ["rs"] = resetVM s 
+  | cmd `elem` ["sc"] = setScript s >> return s
   | otherwise =
       putStrLn "Command not recognized. Type help or h for help." >> return s
 
@@ -118,6 +120,14 @@ setBreakLine s = do
   hFlush stdout
   bkpt <- getLine
   addBreakLine s bkpt
+
+-- Takes a script as input, then calls runScript
+setScript :: VMState -> IO ()
+setScript s = do
+  putStr "Setting Script ~>"
+  hFlush stdout
+  script <- getLine
+  runScript s script
 
 resetVM :: VMState -> IO VMState
 resetVM s = return $ execState reset s
@@ -171,6 +181,35 @@ checkParsedLines (Left err : _ls) = do
 checkParsedLines (Right l : ls) = do
   ls <- checkParsedLines ls
   return $ l : ls
+
+parseScriptFromFile :: String -> IO ([Either ParseError ScriptInsn])
+parseScriptFromFile filename = do
+  handle    <- openFile filename ReadMode
+  contents  <- hGetContents handle
+  return $ fmap (\line -> parse scriptP line) (lines contents)
+
+checkParsedScript :: ([Either ParseError ScriptInsn]) -> IO [ScriptInsn]
+checkParsedScript [] = return []
+checkParsedScript (Left err : _ls) = do
+  putStrLn $ "Parser failed:\n\t" ++ err
+  exitFailure
+checkParsedScript (Right l : ls) = do
+  ls <- checkParsedScript ls
+  return $ l : ls
+
+runScript :: VMState -> String -> IO ()
+runScript s filename = do
+  prelines <- parseScriptFromFile filename
+  lines    <- checkParsedScript prelines
+  putStrLn . unlines $ fmap show lines 
+  repl $ loadScript s lines
+
+--takes care of parsing scripts
+--loadScript :: String -> IO ()
+--loadScript filename = do
+--  handle   <- openFile filename ReadMode
+--  contents <- hGetContents handle
+--  putStrLn contents
 
 run :: String -> IO ()
 run filename = do

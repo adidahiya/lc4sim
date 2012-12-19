@@ -46,6 +46,34 @@ load ls' = convert $ execState (loadAll ls') initial where
   loadAll :: [Line] -> State LoaderState ()
   loadAll = foldl (\ls l -> ls >> (loadLine l)) (return ())
 
+loadScript :: VMState -> [ScriptInsn] -> VMState
+loadScript s insns = 
+
+  let s' = execState (loadAll insns) s in 
+  s' { start = s' }
+
+  where
+
+  loadAll :: [ScriptInsn] -> State VMState ()
+  loadAll = foldl (\st insn -> st >> (loadScriptLine insn)) (return ())
+ 
+loadScriptLine :: ScriptInsn -> State VMState ()
+loadScriptLine (SETPC _ val) = do
+  s <- get
+  put $ s { pc = val }
+
+loadScriptLine (SETADDR addr' val) = do
+  s <- get
+  let mem' = memory s
+  put $ s { memory = (M.insert addr' val mem') }
+
+loadScriptLine (SETREG reg val) = do
+  s <- get
+  let regFile' = regFile s
+  put $ s { regFile = (M.insert reg val regFile') }
+
+loadScriptLine _ = undefined
+
 addLabel :: Label -> State LoaderState ()
 addLabel lbl = do
   s <- get

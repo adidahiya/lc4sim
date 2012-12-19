@@ -84,6 +84,15 @@ biOpRegImmP = constP "CMPI"  CMPI  <|>
               constP "CONST" CONST <|>
               constP "HICONST" HICONST
 
+--setPC :: Parser (PC -> Int -> ScriptInsn)
+--setPC = constP "set" SETPC
+
+--setReg :: Parser (Register -> Int -> ScriptInsn)
+--setReg = constP "set" SETREG
+
+--setAddr :: Parser (Addr -> Int -> ScriptInsn)
+--setAddr = constP "set" SETADDR
+
 -- | Parses a branch condition.
 -- Order is important.
 branchCondP :: Parser BC
@@ -95,6 +104,33 @@ branchCondP = choice [constP "nzp" NZP,
                       constP "n"  N,
                       constP "p"  P 
                      ]
+
+scriptP :: Parser ScriptInsn
+scriptP = choice [ setPC, setReg, setAddr ]
+          where
+            -- | tests
+            setTry =
+              do  op <- wsP $ constP "set" SETPC
+                  _ <- wsP $ string "pc"
+                  return $ op "pc" 1
+            -- | sets pc values
+            setPC =
+              do op <- wsP $ constP "set" SETPC
+                 _ <- wsP $ string "pc"
+                 val <- wsP $ intP
+                 return $ op "pc" val
+            -- | set registers to a specified value
+            setReg = 
+              do op <- wsP $ constP "set" SETREG
+                 reg <- wsP $ regP 
+                 val <- wsP $ choice [ hexP, intP, decP ]
+                 return $ op reg val
+            -- | set a certain memory address to a specified value
+            setAddr = 
+              do op <- wsP $ constP "set" SETADDR
+                 addr <- wsP $ intP
+                 val <- wsP $ intP
+                 return $ op addr val
 
 -- | Parses an LC4 Instruction.
 insnP :: Parser Instruction
@@ -111,6 +147,7 @@ insnP = choice [constInsnP, brP, triRegOpP, duoRegOpP, unoRegOpP,
                bc <- wsP branchCondP
                l  <- labelP
                return $ op bc l
+
           -- Instructions that take 3 register args
           triRegOpP =
             do op <- wsP triOpP
@@ -120,6 +157,7 @@ insnP = choice [constInsnP, brP, triRegOpP, duoRegOpP, unoRegOpP,
                _  <- wsP $ char ','
                r3 <- regP
                return $ op r1 r2 r3
+
           -- Insns that take 2 reg args
           duoRegOpP =
             do op <- wsP biOpP
@@ -127,11 +165,13 @@ insnP = choice [constInsnP, brP, triRegOpP, duoRegOpP, unoRegOpP,
                _  <- wsP $ char ','
                r2 <- regP
                return $ op r1 r2
+
           -- Insns that take 1 reg arg
           unoRegOpP =
             do op <- wsP uOpP
                r1 <- regP
                return $ op r1
+
           -- Insns that take 2 reg and 1 Imm arg
           duoRegImmOpP =
             do op <- wsP triOpImmP
@@ -141,11 +181,13 @@ insnP = choice [constInsnP, brP, triRegOpP, duoRegOpP, unoRegOpP,
                _  <- wsP $ char ','
                i <- intP
                return $ op r1 r2 i
+
           -- Insns that take 1 Imm arg
           immOpP =
             do op <- wsP $ constP "TRAP" TRAP
                i  <- intP
                return $ op i
+
           -- Takes a reg and a label
           regLblOpP =
             do op <- wsP $ constP "LEA" LEA <|> constP "LC" LC
@@ -153,11 +195,13 @@ insnP = choice [constInsnP, brP, triRegOpP, duoRegOpP, unoRegOpP,
                _ <- wsP $ char ','
                l  <- labelP
                return $ op r1 l
+
           -- Takes a label
           lblOpP =
             do op <- wsP $ constP "JSR" JSR <|> constP "JMP" JMP
                l  <- labelP
                return $ op l
+
           -- Takes a reg and an imm
           regImmOpP =
             do op <- wsP $ biOpRegImmP

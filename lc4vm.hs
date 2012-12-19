@@ -52,7 +52,10 @@ type RegisterFile = Map Register Int
 type Memory = Map Int Int
 type Breakpoints = Set LineNumber
 data CC = CC_N | CC_Z | CC_P deriving (Eq, Show)
+
 type PC = Int
+type Addr = Int
+type Val = Int
 
 regValue :: Register -> RegisterFile -> Int
 regValue reg regFile = fromMaybe 0 $ M.lookup reg regFile
@@ -81,6 +84,13 @@ data BC = N
         | ZP
         | P
         | NZP
+  deriving (Eq, Show)
+
+data ScriptInsn = RESET
+                | SETPC String Int
+                | SETADDR Addr Int
+                | SETREG Register Int
+                | BREAKL Label
   deriving (Eq, Show)
 
 data Instruction = NOP
