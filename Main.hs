@@ -116,7 +116,7 @@ continueInstruction s = return $ execState continue s
 nextInstruction :: VMState -> IO VMState
 nextInstruction s = return $ execState nextStep s
 
--- Takes in a PC and sets the breakpoint
+-- | Takes in a PC and sets the breakpoint
 setBreakLine :: VMState -> IO VMState
 setBreakLine s = do
   putStr "Setting Line Breakpoint ~>"
@@ -124,7 +124,7 @@ setBreakLine s = do
   bkpt <- getLine
   addBreakLine s bkpt
 
--- Takes a script as input, then calls runScript
+-- | Takes a script as input, then calls runScript
 setScript :: VMState -> IO ()
 setScript s = do
   putStr "Setting Script ~>"
@@ -132,13 +132,15 @@ setScript s = do
   script <- getLine
   runScript s script
 
+-- | Reverts back to the state of the virtual machine POST-script
+-- Once a script is loaded, the original reset state is modified
 resetVM :: VMState -> IO VMState
 resetVM s = return $ execState reset s
 
-
+-- | Breakpoints for labels only
 setBreakLabel :: VMState -> IO VMState
 setBreakLabel s = do
-  putStr "Setting Label Breakpoint ~>"
+  putStr "Setting Label Breakpoint ~> "
   hFlush stdout
   bkpt <- getLine
   addBreakLabel s bkpt
@@ -149,9 +151,8 @@ addBreakLabel s bkpt = do
     case l of
       Just line -> return $ s { LC4VM.brks = (Set.insert line (LC4VM.brks s)) }
       Nothing   -> return s
-      --return $ s { LC4VM.brks = (Set.insert line (LC4VM.brks s)) }
 
--- takes in the VMState and actually adds the breakpoint to the bkpt map
+-- | takes in the VMState and actually adds the breakpoint to the bkpt map
 addBreakLine :: VMState -> String -> IO VMState
 addBreakLine s bkpt =
   let line = read bkpt::Int in

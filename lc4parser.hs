@@ -96,6 +96,7 @@ branchCondP = choice [constP "nzp" NZP,
                       constP "p"  P 
                      ]
 
+-- takes care of parsing script commands for breakpoints and set commands
 scriptP :: Parser ScriptInsn
 scriptP = choice [ setPC, setReg, setAddr, setBreakLine, setBreakLabel ]
           where

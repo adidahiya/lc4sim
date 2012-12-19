@@ -82,7 +82,7 @@ evalBranch cc' bc' = case bc' of
 continue :: State (VMState) ()
 continue = do
   s <- get
-  --check of our current pc is a breakpoint
+  -- | check of our current pc is a breakpoint
   if (pc s) `Set.member` (brks s) then return ()
     else
       case M.lookup (pc s) (prog s) of
@@ -96,7 +96,7 @@ nextStep = do
     Nothing -> return ()
     Just insn -> step insn
 
--- restores the current state of the simulator to the default
+-- | restores the current state of the simulator to the default
 reset :: State (VMState) ()
 reset = do
   s <- get
