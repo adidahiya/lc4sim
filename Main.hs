@@ -19,6 +19,7 @@ import ParserCombinators
 import VMLoader
 import Simulator
 import LC4PP
+import LC4Draw
 
 -- | The welcome message. This is printed when the interpreter is started
 --   without any command-line arguments.
@@ -28,8 +29,8 @@ welcomeMsg =
    \interpreter for the LC4 assembly language. Type h or help for help.\n"
 
 -- | The prompt displayed.
-prompt :: String
-prompt = "lc4sim> "
+-- prompt :: String
+-- prompt = "lc4sim> "
 
 -- | The help text that is displayed for help.
 helpText :: String
@@ -50,7 +51,7 @@ helpText =
   \bp |          -- Show current breakpoints. \n \
   \p  |          -- Show program. \n \
   \rs |          -- Reset. \n \
-  \sc |          -- Print Script. \n"
+  \sc |          -- Load script. \n"
 
 -- | Processes a command from main and calls the appropriate
 --   functions to deal with them.
@@ -154,6 +155,7 @@ addBreakLine s bkpt =
   let line = read bkpt::Int in
   return $ s { LC4VM.brks = (Set.insert line (LC4VM.brks s)) }
 
+{-
 repl :: VMState -> IO ()
 repl s = do
   putStr prompt
@@ -162,6 +164,7 @@ repl s = do
   putStrLn $ "You typed " ++ cmd ++ ". "
   s' <- processCmd s (map toLower cmd)
   repl s'
+-}
 
 mainHelp :: String
 mainHelp = "LC4 Interpreter. Usage: lc4sim <filename.asm>"
@@ -202,7 +205,7 @@ runScript s filename = do
   prelines <- parseScriptFromFile filename
   lines    <- checkParsedScript prelines
   putStrLn . unlines $ fmap show lines 
-  repl $ loadScript s lines
+  runDebugger $ loadScript s lines
 
 --takes care of parsing scripts
 --loadScript :: String -> IO ()
@@ -217,7 +220,7 @@ run filename = do
   lines     <- checkParsedLines prelines
   putStrLn . unlines $ fmap show lines
   putStrLn welcomeMsg
-  repl $ load lines
+  runDebugger $ load lines
 
 -- | Parse file from command arguments and run the REPL.
 main :: IO ()

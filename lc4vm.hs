@@ -49,13 +49,13 @@ type Labels = Map Label Int
 
 -- Mutable state
 type RegisterFile = Map Register Int
-type Memory = Map Int Int
-type Breakpoints = Set LineNumber
+type Memory       = Map Int Int
+type Breakpoints  = Set LineNumber
 data CC = CC_N | CC_Z | CC_P deriving (Eq, Show)
 
-type PC = Int
+type PC   = Int
 type Addr = Int
-type Val = Int
+type Val  = Int
 
 regValue :: Register -> RegisterFile -> Int
 regValue reg regFile = fromMaybe 0 $ M.lookup reg regFile
@@ -66,15 +66,15 @@ lblValue :: Label -> Labels -> Int
 lblValue lbl labels =
   fromMaybe (error "missing label") $ M.lookup lbl labels
 
-data VMState = VM { start :: Maybe VMState,
-                    prog :: Program,
-                    lbls :: Labels,
+data VMState = VM { start   :: Maybe VMState,
+                    prog    :: Program,
+                    lbls    :: Labels,
                     regFile :: RegisterFile,
-                    memory :: Memory,
-                    brks :: Breakpoints,
-                    pc :: PC,
-                    cc :: CC,
-                    psr :: Bool }
+                    memory  :: Memory,
+                    brks    :: Breakpoints,
+                    pc      :: PC,
+                    cc      :: CC,
+                    psr     :: Bool }
              deriving (Eq, Show)
 
 data BC = N

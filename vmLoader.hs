@@ -50,7 +50,7 @@ loadScript :: VMState -> [ScriptInsn] -> VMState
 loadScript s insns = 
 
   let s' = execState (loadAll insns) s in 
-  s' { start = s' }
+  s' { start = Just s' }
 
   where
 
