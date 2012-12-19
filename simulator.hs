@@ -17,12 +17,10 @@ readPC :: State VMState PC
 readPC = liftM pc get
 
 updatePC :: Int -> State (VMState) ()
--- updatePC target = get >>= (\s -> put s {pc = target})
 updatePC target = do vmState <- get
                      put vmState {pc=target}
 
 incrPC :: State (VMState) ()
--- incrPC = liftM pc get >>= (\pc' -> updatePC $ pc' + 1)
 incrPC = do currPC <- readPC
             updatePC $ currPC + 1
 
@@ -84,7 +82,7 @@ evalBranch cc' bc' = case bc' of
 continue :: State (VMState) ()
 continue = do
   s <- get
-  --check of our current pc is a breakpoint
+  -- | check of our current pc is a breakpoint
   if (pc s) `Set.member` (brks s) then return ()
     else
       case M.lookup (pc s) (prog s) of
@@ -98,13 +96,13 @@ nextStep = do
     Nothing -> return ()
     Just insn -> step insn
 
--- restores the current state of the simulator to the default
+-- | restores the current state of the simulator to the default
 reset :: State (VMState) ()
 reset = do
   s <- get
   case start s of
     Nothing -> error "Start state should never be nothing."
-    Just st -> put $ st
+    Just st -> put $ st { start = Just st }
 
 step :: Instruction -> State (VMState) ()
 step NOP = incrPC

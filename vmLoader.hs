@@ -72,7 +72,18 @@ loadScriptLine (SETREG reg val) = do
   let regFile' = regFile s
   put $ s { regFile = (M.insert reg val regFile') }
 
-loadScriptLine _ = undefined
+loadScriptLine (BREAKL lbl) = do
+  s <- get
+  let line = M.lookup lbl (LC4VM.lbls s)
+  case line of
+    Nothing -> put $ s
+    Just line' -> put $ s { LC4VM.brks = S.insert line' (LC4VM.brks s) }
+
+loadScriptLine (BREAKN line) = do
+  s <- get
+  put $ s { LC4VM.brks = S.insert line (LC4VM.brks s) }
+
+loadScriptLine _ = error "Hit bad case while pattern matching script insns."
 
 addLabel :: Label -> State LoaderState ()
 addLabel lbl = do

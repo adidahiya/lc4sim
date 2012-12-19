@@ -54,10 +54,11 @@ triOpImmPP :: String -> Register -> Register -> Int -> Doc
 triOpImmPP s r1 r2 i = PP.text s <+> pp r1 <*> pp r2 <*> PP.char '#' <> PP.int i
 
 instance PP ScriptInsn where
-  pp (RESET) = PP.text "RESET"
   pp (SETPC pc val)     = PP.text "set" <+> PP.text "pc" <+> PP.int val
   pp (SETADDR addr val) = PP.text "set" <+> PP.int addr <+> PP.int val
   pp (SETREG reg val)   = PP.text "set" <+> pp reg <+> PP.int val
+  pp (BREAKL lbl)       = PP.text "break" <+> PP.text lbl
+  pp (BREAKN line)      = PP.text "break" <+> PP.int line
 
 instance PP Instruction where
   pp NOP = PP.text "NOP"

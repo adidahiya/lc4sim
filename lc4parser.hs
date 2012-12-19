@@ -84,15 +84,6 @@ biOpRegImmP = constP "CMPI"  CMPI  <|>
               constP "CONST" CONST <|>
               constP "HICONST" HICONST
 
---setPC :: Parser (PC -> Int -> ScriptInsn)
---setPC = constP "set" SETPC
-
---setReg :: Parser (Register -> Int -> ScriptInsn)
---setReg = constP "set" SETREG
-
---setAddr :: Parser (Addr -> Int -> ScriptInsn)
---setAddr = constP "set" SETADDR
-
 -- | Parses a branch condition.
 -- Order is important.
 branchCondP :: Parser BC
@@ -105,14 +96,10 @@ branchCondP = choice [constP "nzp" NZP,
                       constP "p"  P 
                      ]
 
+-- takes care of parsing script commands for breakpoints and set commands
 scriptP :: Parser ScriptInsn
-scriptP = choice [ setPC, setReg, setAddr ]
+scriptP = choice [ setPC, setReg, setAddr, setBreakLine, setBreakLabel ]
           where
-            -- | tests
-            setTry =
-              do  op <- wsP $ constP "set" SETPC
-                  _ <- wsP $ string "pc"
-                  return $ op "pc" 1
             -- | sets pc values
             setPC =
               do op <- wsP $ constP "set" SETPC
@@ -131,6 +118,18 @@ scriptP = choice [ setPC, setReg, setAddr ]
                  addr <- wsP $ intP
                  val <- wsP $ intP
                  return $ op addr val
+            -- | set breakpoint line
+            setBreakLine =
+              do  op   <- wsP $ constP "break" BREAKN
+                  _    <- wsP $ string "set"
+                  line <- wsP $ intP
+                  return $ op line
+            -- | set breakpoint label
+            setBreakLabel =
+              do  op <- wsP $ constP "break" BREAKL
+                  _  <- wsP $ string "set"
+                  lbl <- wsP $ labelP
+                  return $ op lbl
 
 -- | Parses an LC4 Instruction.
 insnP :: Parser Instruction

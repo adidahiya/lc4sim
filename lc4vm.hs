@@ -91,6 +91,7 @@ data ScriptInsn = RESET
                 | SETADDR Addr Int
                 | SETREG Register Int
                 | BREAKL Label
+                | BREAKN Int
   deriving (Eq, Show)
 
 data Instruction = NOP
