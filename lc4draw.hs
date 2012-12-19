@@ -4,7 +4,7 @@ import System.Exit (exitSuccess)
 import Graphics.Vty
 import Control.Monad.State
 import qualified Data.Map as M
-import qualified Data.Set as S (Set, insert)
+import qualified Data.Set as S
 import Numeric
 import Data.Word (Word)
 
@@ -87,9 +87,10 @@ drawEditor vms | (M.size $ prog vms) == 0 = empty_image
                                 (string attr $ ' ' : display insn)
       where attr = if pc == curPC then highlight
                                   else defaultAttr
-    -- TODO: Fix style
     drawLineNr :: Int -> Image
-    drawLineNr i = pad (fromIntegral maxWidth, 1) $ string inverseAttr (show i)
+    drawLineNr i = pad (fromIntegral maxWidth, 1) $ string attr (show i)
+      where attr | S.member i (brks vms) = titleAttr `with_style` reverse_video
+                 | otherwise = defaultAttr `with_style` reverse_video
 
     -- Find the length of the longest line number in the program
     maxWidth :: Int
@@ -127,21 +128,22 @@ drawDebugger ds = pic_for_image debugger where
   vmState   = vm ds
   debugger  = title <-> (source <|> (registers <-> memImage)) <-> console
 
-  source    = pad (40, 40) $ drawEditor (vm ds)
+  source    = pad (25, 40) $ drawEditor (vm ds)
   registers = regFileTitle <-> (drawRegFile $ regFile vmState)
   memImage  = memoryTitle  <-> (drawMemory  $ memory vmState)
   console   = debuggerHelp <-> input <-> output
 
   output        = string (defaultAttr `with_fore_color` green) (stdoutDS ds)
-  input         = string ((defaultAttr `with_fore_color` bright_green) 
-                          `with_style` underline)
+  input         = string (defaultAttr `with_fore_color` bright_green)
                          (debuggerPrompt ++ stdinDS ds)
-  -- TODO: padding for title
   title         = string inverseAttr "PennSim debugger for LC4" <-> blankLine
   regFileTitle  = string (titleAttr `with_style` reverse_video) "Register File"
                   <-> blankLine
   memoryTitle   = string (titleAttr `with_style` reverse_video) "Memory"
-                  <-> blankLine
+                  <-> tableCols <-> blankLine
+  tableCols     = (pad (8, 1) $ string defaultAttr "addr") <|>
+                  (pad (8, 1) $ string defaultAttr "hex") <|>
+                  (pad (8, 1) $ string defaultAttr "decimal")
   debuggerHelp  = pad (50, 4) $ vert_cat $ map (string inverseAttr) debuggerCmds
 
 ------------------------------------------------------------------------------
@@ -179,20 +181,41 @@ continueDebugger :: DebuggerState -> DebuggerState
 continueDebugger ds = ds { vm = execState continue (vm ds) }
 
 -- | Set the current line as a break point
-setBreakLine :: DebuggerState -> DebuggerState
-setBreakLine ds = ds { vm = vms { brks = brks' } }
+toggleBreakLine :: DebuggerState -> DebuggerState
+toggleBreakLine ds = ds { vm = vms { brks = brks' } }
   where
     vms   = vm ds
-    brks' = S.insert (pc vms) (brks vms)
+    brks' = op (pc vms) (brks vms)
+    op | S.member (pc vms) (brks vms) = S.delete
+       | otherwise                    = S.insert
 
 resetDebugger :: DebuggerState -> DebuggerState
 resetDebugger ds = ds { vm = execState reset (vm ds) }
 
 addBreakLine :: String -> DebuggerState -> DebuggerState
-addBreakLine args ds = ds { vm = vms { brks = brks' } } where
-  line  = read args :: Int
-  vms   = vm ds
-  brks' = S.insert line (brks vms)
+addBreakLine args ds = case args of
+                         (_:_) -> ds { vm = vms { brks = brks' } }
+                         _     -> toggleBreakLine ds
+  where
+    line  = read args :: Int 
+    vms   = vm ds
+    brks' = S.insert line (brks vms)
+
+setRegister :: String -> DebuggerState -> DebuggerState
+setRegister args ds = ds { vm = vms { regFile = rf' } } where
+  vms = vm ds
+  rf' = M.insert reg (read val :: Int) (regFile vms)
+  (regString, val) = splitCmd args
+  reg = case regString of
+          "R0" -> R0
+          "R1" -> R1
+          "R2" -> R2
+          "R3" -> R3
+          "R4" -> R4
+          "R5" -> R5
+          "R6" -> R6
+          "R7" -> R7
+          _    -> R0 -- TODO: fix
 
 ------------------------------------------------------------------------------
 -- Simple parsing of console arguments
@@ -216,19 +239,19 @@ splitCmd s = (cmd, args) where
 -- TODO: support `set` commands
 -- | Execute the command the user typed in stdin
 --   Unfortunately, this remains in the IO monad because we might call
---   exitSuccess on exec (TODO)
 execInput :: DebuggerState -> IO DebuggerState
 execInput ds
   | cmd `elem` ["q", "quit"]        = exitDebugger ds'
   | cmd `elem` ["h", "help"]        = return $ consoleLog helpText ds'
   | cmd `elem` ["n", "next"]        = return $ stepDebugger ds'
   | cmd `elem` ["c", "continue"]    = return $ continueDebugger ds'
-  | cmd `elem` ["b", "breakpoint"]  = return $ setBreakLine ds'
+  | cmd `elem` ["b", "breakpoint"]  = return $ addBreakLine args ds'
   | cmd `elem` ["rs", "reset"]      = return $ resetDebugger ds'
-  | cmd `elem` ["ld", "load"]       = return $ addBreakLine args ds'
+  | cmd `elem` ["set"]              = return $ setRegister args ds'
   {-
-  | cmd `elem` ["bl"] = setBreakLabel s
-  | cmd `elem` ["sc", "script"] = setScript s >> return s
+  | cmd `elem` ["ld", "load"]       = return $ addBreakLine args ds'
+  | cmd `elem` ["bl"]               = setBreakLabel s
+  | cmd `elem` ["sc", "script"]     = setScript s >> return s
   -}
   | otherwise = return $ consoleLog "Command not recognized." ds'
   where
