@@ -9,14 +9,10 @@ import Language.Fay.FFI
 import JQuery
 import Canvas
 
--- import Control.Monad.State
--- import Data.Map
--- import Data.Set
+import JSMap
 import State
 import Bits
 import LC4VM
-
-map = Language.Fay.Prelude.map
 
 ------------------------------------------------------------------------------
 -- Interact with LC4 Simulator and update UI
@@ -24,27 +20,27 @@ map = Language.Fay.Prelude.map
 
 -- RegisterFile :: Map Register Int
 printRegisters :: VMState -> Fay ()
-printRegisters vm = Language.Fay.Prelude.sequence_ (Main.map printReg [0..7]) where
+printRegisters vm = sequence_ (map printReg [0..7]) where
 
   printReg :: Int -> Fay JQuery
   printReg r = do
     let reg = read ('R' : show r) :: Register
     regEl <- selectID ('R' : show r)
+    let val = findWithDefault (error "missing reg") reg (regFile vm)
     -- setText ('x' : showHex val "") regEl
-    let val = Data.Map.findWithDefault (error "missing reg") reg (regFile vm)
     setText (show val) regEl
 
 -- Memory :: Map Int Int
 printMem :: VMState -> Fay ()
-printMem vm = Language.Fay.Prelude.sequence_ (Main.map printEntry [0..(mSize - 1)]) where
-  mSize = (Data.Map.size mem)
+printMem vm = sequence_ (map printEntry [0..(mSize - 1)]) where
+  mSize = (sizeM mem)
   mem   = memory vm
 
   printEntry :: Int -> Fay JQuery
   printEntry e = do
     entries <- select "#memory .value"
     entryEl <- selectInstance e entries
-    let val = Data.Map.findWithDefault (error "missing entry") e mem
+    let val = findWithDefault (error "missing entry") e mem
     -- setText ('x' : showHex val "") entryEl
     setText (show val) entryEl
 
@@ -61,15 +57,15 @@ hexToRGBA :: Int -> RGBA
 hexToRGBA = undefined
 
 getVideoMem :: Memory -> Memory
-getVideoMem = Data.Map.filter (\v -> v > videoMemStart && v < videoMemEnd)
+getVideoMem = filterM (\v -> v > videoMemStart && v < videoMemEnd)
 
 -- Video memory resides from xC000 <-> xFDFF
 drawVideoMem :: VMState -> Fay ()
-drawVideoMem vm = Language.Fay.Prelude.sequence_ (Main.map drawAction mem) where
+drawVideoMem vm = sequence_ (map drawAction mem) where
   canvas = ffi "document.getElementById('canvas')" -- TODO: fix
 
   mem :: [(Int, Int)]
-  mem = Data.Map.toList $ getVideoMem $ memory vm
+  mem = toList $ getVideoMem $ memory vm
 
   drawAction :: (Int, Int) -> Fay ()
   drawAction (mem, hex) = drawPixel (hexToRGBA hex) (x, y) canvas where
@@ -89,11 +85,11 @@ onLineClick e = do
   print e
 
 sampleVM :: VMState
-sampleVM = VM { prog    = Data.Map.empty,
-                lbls    = Data.Map.empty,
+sampleVM = VM { prog    = emptyM,
+                lbls    = emptyM,
                 regFile = undefined,
-                memory  = Data.Map.empty,
-                brks    = Data.Set.empty,
+                memory  = emptyM,
+                brks    = [],
                 pc      = 0,
                 cc      = CC_N,
                 psr     = False }
