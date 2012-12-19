@@ -25,12 +25,13 @@ import LC4Draw
 --   functions to deal with them.
 processCmd :: VMState -> String -> IO VMState
 processCmd s cmd
-  | cmd `elem` ["b", "breakpoint"] = setBreakLine s
-  | cmd `elem` ["bl"] = setBreakLabel s
-  | cmd `elem` ["rs"] = resetVM s
+  -- | cmd `elem` ["b", "breakpoint"] = setBreakLine s
+  -- | cmd `elem` ["bl"] = setBreakLabel s
+  -- | cmd `elem` ["rs"] = resetVM s
   | cmd `elem` ["sc"] = setScript s >> return s
   | otherwise = return s
 
+{-
 -- | Takes in a PC and sets the breakpoint
 setBreakLine :: VMState -> IO VMState
 setBreakLine s = do
@@ -38,6 +39,7 @@ setBreakLine s = do
   hFlush stdout
   bkpt <- getLine
   addBreakLine s bkpt
+-}
 
 -- | Takes a script as input, then calls runScript
 setScript :: VMState -> IO ()
@@ -67,11 +69,13 @@ addBreakLabel s bkpt = do
       Just line -> return $ s { LC4VM.brks = (Set.insert line (LC4VM.brks s)) }
       Nothing   -> return s
 
+{-
 -- | takes in the VMState and actually adds the breakpoint to the bkpt map
 addBreakLine :: VMState -> String -> IO VMState
 addBreakLine s bkpt =
   let line = read bkpt::Int in
   return $ s { LC4VM.brks = (Set.insert line (LC4VM.brks s)) }
+-}
 
 mainHelp :: String
 mainHelp = "LC4 Interpreter. Usage: lc4sim <filename.asm>"

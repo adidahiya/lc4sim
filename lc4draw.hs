@@ -4,6 +4,7 @@ import System.Exit (exitSuccess)
 import Graphics.Vty
 import Control.Monad.State
 import qualified Data.Map as M
+import qualified Data.Set as S (Set, insert)
 import Numeric
 import Data.Word (Word)
 
@@ -71,6 +72,9 @@ titleAttr   = current_attr `with_fore_color` bright_red
 redAttr     = defaultAttr `with_fore_color` bright_cyan
 highlight   = defaultAttr `with_fore_color` bright_yellow
 
+blankLine :: Image
+blankLine = pad (1, 1) $ string defaultAttr ""
+
 -- | Draw all the Instructions as lines in an image. Ensure that the currently
 --   executing instruction (given by PC) is within the view and highlight it.
 drawEditor :: VMState -> Image
@@ -80,9 +84,10 @@ drawEditor vms | (M.size $ prog vms) == 0 = empty_image
   where
     drawLine :: PC -> (Int, Instruction) -> Image
     drawLine pc (curPC, insn) = (drawLineNr curPC) <|>
-                                (string attr $ display insn)
+                                (string attr $ ' ' : display insn)
       where attr = if pc == curPC then highlight
                                   else defaultAttr
+    -- TODO: Fix style
     drawLineNr :: Int -> Image
     drawLineNr i = pad (fromIntegral maxWidth, 1) $ string inverseAttr (show i)
 
@@ -92,7 +97,7 @@ drawEditor vms | (M.size $ prog vms) == 0 = empty_image
 
 -- | Draw a string representing an int in base 16
 drawHex :: Attr -> Int -> Image
-drawHex attr val = pad (8, 1) $ string attr ('x' : showHex val "")
+drawHex attr val = pad (8, 1) $ string attr $ showSigned showHex 5 val ""
 
 -- | Draw a horizontal list of register images
 drawRegFile :: RegisterFile -> Image
@@ -106,6 +111,7 @@ drawRegFile rf = (filterRegisters (\r _ -> r `elem` [R0, R1, R2, R3])) <->
   drawRegister (reg, val) = (pad (4, 1) $ string redAttr (show reg)) <|>
                             (drawHex defaultAttr val)
 
+-- TODO: fix for empty memory file
 -- | Draw a vertical list of memory table entries
 drawMemory :: Memory -> Image
 drawMemory = vert_cat . (map drawEntry) . M.toList where
@@ -124,16 +130,18 @@ drawDebugger ds = pic_for_image debugger where
   source    = pad (40, 40) $ drawEditor (vm ds)
   registers = regFileTitle <-> (drawRegFile $ regFile vmState)
   memImage  = memoryTitle  <-> (drawMemory  $ memory vmState)
-  console   = {-pad (100, 10) $ -} debuggerHelp <-> input <-> output
+  console   = debuggerHelp <-> input <-> output
 
   output        = string (defaultAttr `with_fore_color` green) (stdoutDS ds)
   input         = string ((defaultAttr `with_fore_color` bright_green) 
                           `with_style` underline)
                          (debuggerPrompt ++ stdinDS ds)
-  title         = string inverseAttr "PennSim debugger for LC4" <|>
-                  string defaultAttr ""
+  -- TODO: padding for title
+  title         = string inverseAttr "PennSim debugger for LC4" <-> blankLine
   regFileTitle  = string (titleAttr `with_style` reverse_video) "Register File"
+                  <-> blankLine
   memoryTitle   = string (titleAttr `with_style` reverse_video) "Memory"
+                  <-> blankLine
   debuggerHelp  = pad (50, 4) $ vert_cat $ map (string inverseAttr) debuggerCmds
 
 ------------------------------------------------------------------------------
@@ -148,19 +156,20 @@ consoleLog s ds = ds { stdoutDS = s }
 appendToInput :: Char -> DebuggerState -> DebuggerState
 appendToInput c ds = ds { stdinDS = (stdinDS ds) ++ [c] }
 
+removeLastChar :: String -> String
+removeLastChar s = take ((length s) - 1) s
+
 -- | Remove last character from stdin
 backSpace :: DebuggerState -> DebuggerState
-backSpace ds = ds { stdinDS = take (length input - 2) input }
-  where input = stdinDS ds
+backSpace ds = ds { stdinDS = removeLastChar (stdinDS ds) }
 
 -- | Flush stdin
 clearInput :: DebuggerState -> DebuggerState
-clearInput ds = ds { stdinDS = ""}
+clearInput ds = ds { stdinDS = "" }
 
 ------------------------------------------------------------------------------
--- Event handling & command execution
+-- Debugger actions
 ------------------------------------------------------------------------------
-
 -- | Wrapper for `nextStep`
 stepDebugger :: DebuggerState -> DebuggerState
 stepDebugger ds = ds { vm = execState nextStep (vm ds) }
@@ -169,22 +178,61 @@ stepDebugger ds = ds { vm = execState nextStep (vm ds) }
 continueDebugger :: DebuggerState -> DebuggerState
 continueDebugger ds = ds { vm = execState continue (vm ds) }
 
+-- | Set the current line as a break point
+setBreakLine :: DebuggerState -> DebuggerState
+setBreakLine ds = ds { vm = vms { brks = brks' } }
+  where
+    vms   = vm ds
+    brks' = S.insert (pc vms) (brks vms)
+
+resetDebugger :: DebuggerState -> DebuggerState
+resetDebugger ds = ds { vm = execState reset (vm ds) }
+
+addBreakLine :: String -> DebuggerState -> DebuggerState
+addBreakLine args ds = ds { vm = vms { brks = brks' } } where
+  line  = read args :: Int
+  vms   = vm ds
+  brks' = S.insert line (brks vms)
+
+------------------------------------------------------------------------------
+-- Simple parsing of console arguments
+------------------------------------------------------------------------------
+
+notWS :: Char -> Bool
+notWS c = c `notElem` " "
+
+-- Split console input into its cmd and args
+splitCmd :: String -> (String, String)
+splitCmd s = (cmd, args) where
+  cmd   = takeWhile notWS s
+  args  = case (dropWhile notWS s) of
+            (x:xs) -> xs
+            _      -> ""
+
+------------------------------------------------------------------------------
+-- Event handling & command execution
+------------------------------------------------------------------------------
+
+-- TODO: support `set` commands
 -- | Execute the command the user typed in stdin
+--   Unfortunately, this remains in the IO monad because we might call
+--   exitSuccess on exec (TODO)
 execInput :: DebuggerState -> IO DebuggerState
 execInput ds
-  | cmd `elem` ["q", "quit"] = exitDebugger ds'
-  | cmd `elem` ["h", "help"] = return $ consoleLog helpText ds'
-  | cmd `elem` ["n", "next"] = return $ stepDebugger ds'
-  | cmd `elem` ["c", "continue"] = return $ continueDebugger ds'
+  | cmd `elem` ["q", "quit"]        = exitDebugger ds'
+  | cmd `elem` ["h", "help"]        = return $ consoleLog helpText ds'
+  | cmd `elem` ["n", "next"]        = return $ stepDebugger ds'
+  | cmd `elem` ["c", "continue"]    = return $ continueDebugger ds'
+  | cmd `elem` ["b", "breakpoint"]  = return $ setBreakLine ds'
+  | cmd `elem` ["rs", "reset"]      = return $ resetDebugger ds'
+  | cmd `elem` ["ld", "load"]       = return $ addBreakLine args ds'
   {-
-  | cmd `elem` ["b", "breakpoint"] = setBreakLine s
   | cmd `elem` ["bl"] = setBreakLabel s
-  | cmd `elem` ["rs", "reset"] = resetVM s 
   | cmd `elem` ["sc", "script"] = setScript s >> return s
   -}
   | otherwise = return $ consoleLog "Command not recognized." ds'
   where
-    cmd = stdinDS ds    -- TODO: strip whitespace
+    (cmd, args) = splitCmd $ stdinDS ds    -- TODO: strip whitespace
     ds' = clearInput ds
 
 -- | Respond to keyboard events
@@ -197,10 +245,10 @@ processEvent key ds = case key of
   _         -> return ds
 
 ------------------------------------------------------------------------------
--- Visual REPL for debugger
+-- Visual REPL for debugger, IO Monad functions
 ------------------------------------------------------------------------------
 
--- | Force Vty to wait for a keypress
+-- | Force Vty to wait for a keypress, do nothing on mouse and resize events
 waitForKeypress :: Vty -> IO Key
 waitForKeypress vty' = do
   event <- next_event vty'
@@ -216,17 +264,12 @@ repl ds = do
   ds' <- processEvent key ds
   repl ds'
 
--- | Generate an initial Debugger state
-mkDebuggerState :: VMState -> Vty -> DebuggerState
-mkDebuggerState vms vty' =
-  DS vms vty' [] "" ""
-
 -- | Create a Vty instance and use it to start the REPL
 runDebugger :: VMState -> IO ()
 runDebugger vms = do
   vty' <- liftIO mkVty
-  let ds = mkDebuggerState vms vty'
-  repl ds
+  let initialDS = DS vms vty' [] "" ""
+  repl initialDS
   shutdown vty'
 
 -- | Safely exit the debugger program and its graphical context
