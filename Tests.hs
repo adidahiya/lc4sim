@@ -8,13 +8,15 @@ runTests :: IO Counts
 runTests = runTestTT allTests
 
 allTests :: Test
-allTests = TestList [tInsnCorrect,
+allTests = TestList [tScriptCorrect,
+                     tInsnCorrect,
                      tCommentCorrect,
                      tIntCorrect,
                      tDirectiveCorrect,
                      tMisc
                     ]
            
+checkScript x = succeed (parse scriptP x)
 checkInsn x = succeed (parse insnP x)
 checkCmmt x = succeed (parse commentP x)
 checkDir x = succeed (parse directiveP x)
@@ -23,6 +25,16 @@ succeed (Right _) = assert True
 
 testMy :: Parser a -> String -> IO ()
 testMy p x = succeed (parse p x)
+
+tScriptCorrect :: Test
+tScriptCorrect = TestList ["i1" ~: checkScript "set pc #5",
+                "i2" ~: checkScript "set 0x502 x5000",
+                "i3" ~: checkScript "set #502 #502",
+                "i4" ~: checkScript "set R1 #20",
+                "i5" ~: checkScript "set R0 0x30",
+                "i6" ~: checkScript "break set label",
+                "i7" ~: checkScript "break set 0x3000",
+                "i8" ~: checkScript "break set #10" ]
 
 -- | Tests insnP's parse correct things.
 tInsnCorrect :: Test
