@@ -208,13 +208,6 @@ runScript s filename = do
   putStrLn . unlines $ fmap show lines
   repl $ loadScript s lines
 
---takes care of parsing scripts
---loadScript :: String -> IO ()
---loadScript filename = do
---  handle   <- openFile filename ReadMode
---  contents <- hGetContents handle
---  putStrLn contents
-
 run :: String -> IO ()
 run filename = do
   prelines  <- parseLinesFromFile filename

@@ -83,7 +83,7 @@ loadScriptLine (BREAKN line) = do
   s <- get
   put $ s { LC4VM.brks = S.insert line (LC4VM.brks s) }
 
-loadScriptLine _ = error "Somewhere you went awry!"
+loadScriptLine _ = error "Hit bad case while pattern matching script insns."
 
 addLabel :: Label -> State LoaderState ()
 addLabel lbl = do
