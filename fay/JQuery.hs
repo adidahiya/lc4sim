@@ -58,7 +58,6 @@ setAttr = ffi "%3.attr(%1, %2)"
 
 setAttrWith :: String -> (Double -> String -> Fay String) -> JQuery -> Fay JQuery
 setAttrWith = ffi "%3.attr(%1, %2)"
-
 hasClass :: String -> JQuery -> Fay Bool
 hasClass = ffi "%2.hasClass(%1)"
 
@@ -145,6 +144,15 @@ selectObject = ffi "jQuery(%1)"
 
 select :: String -> Fay JQuery
 select = ffi "jQuery(%1)"
+
+selectID :: String -> Fay JQuery
+selectID s = select ('#' : s)
+
+selectClass :: String -> Fay JQuery
+selectClass s = select ('.' : s)
+
+selectInstance :: Int -> JQuery -> Fay JQuery
+selectInstance = ffi "%2.eq(%1)"
 
 selectEmpty :: Fay JQuery
 selectEmpty = ffi "jQuery()"

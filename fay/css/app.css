@@ -4495,9 +4495,6 @@ h6 {
   font-weight: normal;
   line-height: 1.3em;
 }
-.display {
-  font-family: 'Klavika-Bold';
-}
 .tooltip {
   font-family: Helvetica, Arial, sans-serif;
 }
@@ -4634,7 +4631,6 @@ h6 {
 }
 #debugger .button#stop:after {
   content: url('../assets/stop.png');
-  margin-top: 0;
 }
 #debugger .button#stop.selected,
 #debugger .button#stop:hover {
@@ -4672,8 +4668,7 @@ h6 {
   cursor: pointer;
 }
 #source {
-  min-height: 300px;
-  max-height: 500px;
+  height: 500px;
 }
 #source .title {
   border-bottom: solid 3px #4890f9;
@@ -4742,7 +4737,7 @@ h6 {
 #registers .title {
   border-bottom: solid 3px #4c9656;
 }
-.register {
+#registers .register {
   float: left;
   border-top: solid 1px #cccccc;
   background: #ffffff;
@@ -4750,13 +4745,16 @@ h6 {
   color: #000000;
   width: 25%;
 }
-.register .name {
+#registers .register .name {
   float: left;
   margin: -8px 8px -8px -8px;
   padding: 8px;
   color: #555555;
   background: #e6e7e8;
   border-right: solid 1px #cccccc;
+}
+#memory {
+  width: 182px;
 }
 #memory .title {
   border-bottom: solid 3px #be5f68;
@@ -4775,19 +4773,32 @@ h6 {
 }
 #memory .table .entry .address {
   float: left;
-  width: 28%;
+  width: 35%;
   border-right: solid 2px #ddd;
   padding: 2px 8px;
   text-align: center;
 }
 #memory .table .entry .value {
   float: right;
-  width: 70%;
+  width: 65%;
   padding: 2px 8px;
 }
+#video {
+  width: 258px;
+}
 #video .title {
-  border-bottom: solid 3px #4890f9;
+  border-bottom: solid 3px #000000;
+}
+#video .display {
+  width: 256px;
+  height: 248px;
+  background: #000000;
+  border-bottom-left-radius: 1px;
+  border-bottom-right-radius: 1px;
+}
+#ascii {
+  width: 258px;
 }
 #ascii .title {
-  border-bottom: solid 3px #4c9656;
+  border-bottom: solid 3px #4890f9;
 }

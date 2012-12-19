@@ -9,43 +9,14 @@ import Language.Fay.FFI
 import JQuery
 import Canvas
 
--- import Numeric
-import Data.Map
-import Data.Set
+-- import Control.Monad.State
+-- import Data.Map
+-- import Data.Set
+import State
+import Bits
 import LC4VM
 
-alert :: Foreign a => a -> Fay ()
-alert = ffi "window.alert(%1)"
-
 map = Language.Fay.Prelude.map
-
-------------------------------------------------------------------------------
--- HTML DOM elements & attributes
-data Attr = Attr String String
-
-data Elem = Elem String [Attr] [Elem]
-          | CData String
-
-buildAttr :: Attr -> String
-buildAttr (Attr k v) = " " ++ k ++ "='" ++ v ++ "'"
-
-buildElem :: Elem -> String
-buildElem (CData s) = s
-buildElem (Elem tag attrs childs) =
-  "<" ++ tag ++ concatMap buildAttr attrs ++ ">" ++
-  concatMap buildElem childs ++
-  "</" ++ tag ++ ">"
-
--- Write elements to the DOM
-writeRaw :: String -> Fay ()
-writeRaw = ffi "document.write(%1)"
-
-writeElem :: Elem -> Fay ()
-writeElem = writeRaw . buildElem
-
--- Get the contents of an element and print them to the console
-printElem :: Fay JQuery -> Fay ()
-printElem f = f >>= getHtml >>= putStrLn
 
 ------------------------------------------------------------------------------
 -- Interact with LC4 Simulator and update UI
@@ -53,7 +24,7 @@ printElem f = f >>= getHtml >>= putStrLn
 
 -- RegisterFile :: Map Register Int
 printRegisters :: VMState -> Fay ()
-printRegisters vm = sequence_ (Main.map printReg [0..7]) where
+printRegisters vm = Language.Fay.Prelude.sequence_ (Main.map printReg [0..7]) where
 
   printReg :: Int -> Fay JQuery
   printReg r = do
@@ -65,7 +36,7 @@ printRegisters vm = sequence_ (Main.map printReg [0..7]) where
 
 -- Memory :: Map Int Int
 printMem :: VMState -> Fay ()
-printMem vm = sequence_ (Main.map printEntry [0..(mSize - 1)]) where
+printMem vm = Language.Fay.Prelude.sequence_ (Main.map printEntry [0..(mSize - 1)]) where
   mSize = (Data.Map.size mem)
   mem   = memory vm
 
@@ -94,7 +65,7 @@ getVideoMem = Data.Map.filter (\v -> v > videoMemStart && v < videoMemEnd)
 
 -- Video memory resides from xC000 <-> xFDFF
 drawVideoMem :: VMState -> Fay ()
-drawVideoMem vm = sequence_ (Main.map drawAction mem) where
+drawVideoMem vm = Language.Fay.Prelude.sequence_ (Main.map drawAction mem) where
   canvas = ffi "document.getElementById('canvas')" -- TODO: fix
 
   mem :: [(Int, Int)]
@@ -106,22 +77,16 @@ drawVideoMem vm = sequence_ (Main.map drawAction mem) where
     y = pixelHeight * ((mem - videoMemStart) `div` 128)
 
 ------------------------------------------------------------------------------
--- Test working with DOM elements and writing to the console
 ------------------------------------------------------------------------------
 
 -- | Set up Ace Editor and its theme
 initEditor :: Fay ()
 initEditor = ffi "ace.edit('editor').setTheme('ace/theme/tomorrow')"
 
--- | Set Filepicker.io API key
-initFilepicker :: Fay ()
-initFilepicker = ffi "filepicker.setKey('AKi1o3YU9SXWoWiVnrB8nz')"
-
 onLineClick :: Event -> Fay ()
 onLineClick e = do
   putStrLn "got line click"
   print e
-
 
 sampleVM :: VMState
 sampleVM = VM { prog    = Data.Map.empty,
@@ -137,7 +102,7 @@ app :: Event -> Fay ()
 app _ = do
   putStrLn "Start js app..."
   -- initEditor
-  initFilepicker
+  -- initFilepicker
   printRegisters sampleVM
   printMem sampleVM
   lineGutter <- selectClass "ace_gutter-cell"

@@ -56,10 +56,6 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.3em;
 }
 
-.display {
-  font-family: @displayFont;
-}
-
 .tooltip {
   font-family: Helvetica, Arial, sans-serif;
 }
@@ -208,10 +204,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     &#stop {
-      &:after {
-        content: url('../assets/stop.png');
-        margin-top: 0;
-      }
+      &:after { content: url('../assets/stop.png'); }
       &.selected, &:hover {
         background: darken(@deepRed, 10);
         border-color: darken(@deepRed, 10);
@@ -247,8 +240,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #source {
-  min-height: 300px;
-  max-height: 500px;
+  height: 500px;
 
   .title { border-bottom: solid 3px @blue; }
 
@@ -304,27 +296,30 @@ h1, h2, h3, h4, h5, h6 {
 
 #registers {
   .title { border-bottom: solid 3px @green; }
-}
 
-.register {
-  float: left;
-  border-top: solid 1px lighten(@grayLight, 20);
-  background: @white;
-  padding: 8px;
-  color: @black;
-  width: 25%;
-
-  .name {
+  .register {
     float: left;
-    margin: -8px 8px -8px -8px;
+    border-top: solid 1px lighten(@grayLight, 20);
+    background: @white;
     padding: 8px;
-    color: @gray;
-    background: @grayBody;
-    border-right: solid 1px lighten(@grayLight, 20);
+    color: @black;
+    width: 25%;
+
+    .name {
+      float: left;
+      margin: -8px 8px -8px -8px;
+      padding: 8px;
+      color: @gray;
+      background: @grayBody;
+      border-right: solid 1px lighten(@grayLight, 20);
+    }
   }
 }
 
+
 #memory {
+  width: 182px;
+
   .title { border-bottom: solid 3px @red; }
 
   .table {
@@ -341,7 +336,7 @@ h1, h2, h3, h4, h5, h6 {
 
       .address {
         float: left;
-        width: 28%;
+        width: 35%;
         border-right: solid 2px #ddd;
         padding: 2px 8px;
         text-align: center;
@@ -349,9 +344,8 @@ h1, h2, h3, h4, h5, h6 {
 
       .value {
         float: right;
-        width: 70%;
+        width: 65%;
         padding: 2px 8px;
-        // text-align: right;
       }
     }
   }
@@ -359,9 +353,21 @@ h1, h2, h3, h4, h5, h6 {
 
 
 #video {
-  .title { border-bottom: solid 3px @blue; }
+  width: 258px;
+
+  .title { border-bottom: solid 3px @black; }
+
+  .display {
+    width: 256px;
+    height: 248px;
+    background: @black;
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+  }
 }
 
 #ascii {
-  .title { border-bottom: solid 3px @green; }
+  width: 258px;
+
+  .title { border-bottom: solid 3px @blue; }
 }

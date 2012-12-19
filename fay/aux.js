@@ -3,8 +3,9 @@
   // =========================================================================
   // Filepicker.io and Ace editor
 
-  var UPLOAD_SELECTOR = '#source .upload'
-    , FP_SERVICES     = ['COMPUTER', 'DROPBOX', 'GITHUB', 'FTP'];
+  var UPLOAD_SELECTOR     = '#source .upload'
+    , FP_SERVICES         = ['COMPUTER', 'DROPBOX', 'GITHUB', 'FTP']
+    , FILEPICKER_API_KEY  = 'AKi1o3YU9SXWoWiVnrB8nz';
 
   // Trigger a Filepicker.io 'pick file' modal
   // @param   click event that triggered this
@@ -25,7 +26,7 @@
       , $editor = $('#editor');
 
     editor.setTheme('ace/theme/tomorrow');
-    $editor.removeclass('placeholder');
+    $editor.removeClass('placeholder');
 
     filepicker.read(FPFile, function (data) {
       console.log("Got file..." + data);
@@ -42,7 +43,7 @@
   // =========================================================================
   // DOM ready
   $(function () {
-
+    filepicker.setKey(FILEPICKER_API_KEY);
     $(UPLOAD_SELECTOR).on('click', pickFile);
 
   });

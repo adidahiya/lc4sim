@@ -8,9 +8,9 @@
     %link{rel: 'shortcut icon', href: 'assets/favicon.png'}
     %script{type: 'text/javascript', src: 'js/lib/jquery-1.8.3.js'}
     %script{type: 'text/javascript', src: 'demo.js'}
+    %script{type: 'text/javascript', src: 'aux.js'}
     %script{type: 'text/javascript', src: 'http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js', charset: 'utf-8'}
     %script{src: 'https://api.filepicker.io/v1/filepicker.js'}
-    %script{src: 'aux.js'}
 
   %body
     .header
@@ -60,30 +60,30 @@
           %h4.title Registers
           .register
             .name R0
-            x0000
+            #R0.value x0000
           .register
             .name R1
-            x0000
+            #R1.value x0000
           .register
             .name R2
-            x0000
+            #R2.value x0000
           .register
             .name R3
-            x0000
+            #R3.value x0000
           .register
             .name R4
-            x0000
+            #R4.value x0000
           .register
             .name R5
-            x0000
+            #R5.value x0000
           .register
             .name R6
-            x0000
+            #R6.value x0000
           .register
             .name R7
-            x0000
+            #R7.value x0000
 
-        .box.span3#memory
+        .box.span2#memory
           %h4.title Memory
           .table
             .entry
@@ -136,8 +136,9 @@
               .value   NOP
 
         .box.span3#video
-          %h4.title Video
+          %h4.title Video Display
+          .display
 
         .box.span3#ascii
-          %h4.title ASCII
+          %h4.title ASCII Display
 
