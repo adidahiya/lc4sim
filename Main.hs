@@ -34,23 +34,26 @@ prompt = "lc4sim> "
 -- | The help text that is displayed for help.
 helpText :: String
 helpText =
-  "This is a list of commands available to you. Some commands expect \
+  " This is a list of commands available to you. Some commands expect \
   \an argument. \n \
   \\n \
   \q  | quit     -- Leave the interpreter.\n \
   \h  | help     -- Print this message. \n \
-  \c  | continue -- Continue to breakpoint/end of program. \n \
+  \\n \
   \n  | next     -- Step to the next instruction.\n \
+  \c  | continue -- Continue to breakpoint/end of program. \n \
+  \\n \
   \r  | reg      -- Show the register file. \n \
   \pc |          -- Show the program file. \n \
   \m  | mem      -- Show current memory. \n \
-  \l  | lbl      -- Show labels. \n \ 
-  \b  |          -- Set a line breakpoint. \n \
-  \bl |          -- Set a label breakpoint. \n \
+  \l  | lbl      -- Show labels. \n \
   \bp |          -- Show current breakpoints. \n \
   \p  |          -- Show program. \n \
-  \rs |          -- Reset. \n \
-  \sc |          -- Print Script. \n"
+  \\n \
+  \b  |          -- Set a line breakpoint. \n \
+  \bl |          -- Set a label breakpoint. \n \
+  \sc |          -- Load Script. \n \
+  \rs |          -- Reset. \n "
 
 -- | Processes a command from main and calls the appropriate
 --   functions to deal with them.
@@ -68,7 +71,7 @@ processCmd s cmd
   | cmd `elem` ["bp"] = showBreakpoints s >> return s
   | cmd `elem` ["bl"] = setBreakLabel s
   | cmd `elem` ["p"] = showProgram s >> return s
-  | cmd `elem` ["rs"] = resetVM s 
+  | cmd `elem` ["rs"] = resetVM s
   | cmd `elem` ["sc"] = setScript s >> return s
   | otherwise =
       putStrLn "Command not recognized. Type help or h for help." >> return s
@@ -91,7 +94,7 @@ showMemory s = do
 showCurrInsn :: VMState -> IO ()
 showCurrInsn s = do
   putStrLn "Program Counter"
-  putStr . show . pc $ s 
+  putStr . show . pc $ s
   putStrLn (case M.lookup (pc s) (LC4VM.prog s) of
     Nothing   -> "No valid insn"
     Just insn -> display insn)
@@ -201,7 +204,7 @@ runScript :: VMState -> String -> IO ()
 runScript s filename = do
   prelines <- parseScriptFromFile filename
   lines    <- checkParsedScript prelines
-  putStrLn . unlines $ fmap show lines 
+  putStrLn . unlines $ fmap show lines
   repl $ loadScript s lines
 
 --takes care of parsing scripts
@@ -221,7 +224,7 @@ run filename = do
 
 -- | Parse file from command arguments and run the REPL.
 main :: IO ()
-main = do 
+main = do
   args <- getArgs
   case args of
     (fname:[])  -> run fname

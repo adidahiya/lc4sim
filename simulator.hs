@@ -17,12 +17,10 @@ readPC :: State VMState PC
 readPC = liftM pc get
 
 updatePC :: Int -> State (VMState) ()
--- updatePC target = get >>= (\s -> put s {pc = target})
 updatePC target = do vmState <- get
                      put vmState {pc=target}
 
 incrPC :: State (VMState) ()
--- incrPC = liftM pc get >>= (\pc' -> updatePC $ pc' + 1)
 incrPC = do currPC <- readPC
             updatePC $ currPC + 1
 
@@ -104,7 +102,7 @@ reset = do
   s <- get
   case start s of
     Nothing -> error "Start state should never be nothing."
-    Just st -> put $ st
+    Just st -> put $ st { start = Just st }
 
 step :: Instruction -> State (VMState) ()
 step NOP = incrPC
